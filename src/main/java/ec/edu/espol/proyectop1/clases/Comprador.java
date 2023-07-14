@@ -20,44 +20,17 @@ import java.util.Scanner;
  */
 public class Comprador extends Usuario{
     
-    public Comprador(String nombres, String apellidos, String organizacion, String correo, String clave) {
-        super(nombres, apellidos, organizacion, correo, clave);
+    public Comprador(int id, String nombres, String apellidos, String organizacion, String correo, String clave) {
+        super(id, nombres, apellidos, organizacion, correo, clave);
     }
     
-          
     
-    
-    public static void crearComprador(){
-        try{
-        ArrayList<Usuario>usuarios = Usuario.readFile("compradores.txt");
-        
+    public static void crearComprador() throws NoSuchAlgorithmException{
         Scanner sc = new Scanner(System.in);
-        System.out.println("Ingrese nombre");
-        String nombre = sc.next();
-        System.out.println("Ingrese apellido");
-        String apellido = sc.next();
-        System.out.println("Ingrese organizacion");
-        String org = sc.next();
+        Usuario.crearUsuario("compradores.txt");
         
-        System.out.println("Ingrese correo");
-        String mail = sc.next();
-        for(Usuario u : usuarios){
-            if(mail.equals(u.getCorreo())){
-                System.out.println("Este correo ya existe");
-                return;
-            }
-                  
-        }
-        System.out.println("Ingrese clave");
-        String clav = sc.next();
-      
-        Comprador un = new Comprador(nombre, apellido, org,mail, Utilitaria.toHexString(getSHA(clav)));
-        un.saveFile("compradores.txt");
+    }
+    public void crearOferta(){
         
-        }
-        catch (NoSuchAlgorithmException e){
-            System.out.println(e.getMessage());
-        }
-                        
     }
 }

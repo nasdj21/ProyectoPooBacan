@@ -17,42 +17,15 @@ import java.util.Scanner;
  */
 public class Vendedor extends Usuario{
 
-    public Vendedor(String nombres, String apellidos, String organizacion, String correo, String clave) {
-        super(nombres, apellidos, organizacion, correo, clave);
+    public Vendedor(int id, String nombres, String apellidos, String organizacion, String correo, String clave) {
+        super(id, nombres, apellidos, organizacion, correo, clave);
     }
     
     
     
-    public static void crearVendedor(){
-        try{
-            ArrayList<Usuario>usuarios = Usuario.readFile("vendedores.txt");
-
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Ingrese nombre");
-            String nombre = sc.next();
-            System.out.println("Ingrese apellido");
-            String apellido = sc.next();
-            System.out.println("Ingrese organizacion");
-            String org = sc.next();
-
-            System.out.println("Ingrese correo");
-            String mail = sc.next();
-            for(Usuario u : usuarios){
-                if(mail.equals(u.getCorreo())){
-                    System.out.println("Este correo ya existe");
-                    return;
-                }
-
-            }
-            System.out.println("Ingrese clave");
-            String clav = sc.next();
-
-            Usuario un = new Vendedor(nombre, apellido, org, mail, Utilitaria.toHexString(getSHA(clav)));
-            un.saveFile("vendedores.txt");
-        }
-        catch (NoSuchAlgorithmException e){
-            System.out.println(e.getMessage());
-        }
+    public static void crearVendedor() throws NoSuchAlgorithmException{
+        Scanner sc = new Scanner(System.in);
+        Usuario.crearUsuario("vendedores.txt");
         
     }
     

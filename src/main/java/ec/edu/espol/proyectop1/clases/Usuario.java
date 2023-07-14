@@ -1,13 +1,16 @@
 package ec.edu.espol.proyectop1.clases;
+import static ec.edu.espol.proyectop1.clases.Utilitaria.getSHA;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 
 public class Usuario {
+    protected int id;
     protected String nombres;
     protected String apellidos;
     protected String organizacion;
@@ -15,7 +18,8 @@ public class Usuario {
     protected String clave;
 
     
-    public Usuario(String nombres, String apellidos, String organizacion, String correo, String clave){
+    public Usuario(int id, String nombres, String apellidos, String organizacion, String correo, String clave){
+        this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.organizacion = organizacion;
@@ -25,7 +29,7 @@ public class Usuario {
     
     public void saveFile(String nomFile){ //Para escribir y crear un archivo
         try(PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomFile), true))){
-            pw.println(this.nombres+"|"+this.apellidos+"|"+this.organizacion+"|"+this.correo+"|"+this.clave);
+            pw.println(this.id+"|"+this.nombres+"|"+this.apellidos+"|"+this.organizacion+"|"+this.correo+"|"+this.clave);
         }
         catch(Exception e){ //lo que deberia hacer en el caso de que el archivo no existe
             System.out.println(e.getMessage());
@@ -40,7 +44,7 @@ public class Usuario {
                 // linea = Nicolas|Sierra|Espol|nasierra@espol.edu.ec|claveNueva
                 String linea = sc.nextLine();
                 String[] tokens = linea.split("\\|");
-                Usuario u = new Vendedor(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4]);
+                Usuario u = new Usuario(Integer.parseInt(tokens[0]), tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]);
                 usuarios.add(u);
                 
             }
@@ -54,6 +58,39 @@ public class Usuario {
         return usuarios;
         
     
+    }
+    
+    public static void crearUsuario(String nomfile) throws NoSuchAlgorithmException{
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Usuario>usuarios = Usuario.readFile(nomfile);
+        
+        int id = Utilitaria.nextID(nomfile);
+        
+        System.out.println("Ingrese nombre");
+        String nombre = sc.next();
+        System.out.println("Ingrese apellido");
+        String apellido = sc.next();
+        System.out.println("Ingrese organizacion");
+        String org = sc.next();
+        
+        System.out.println("Ingrese correo");
+        String mail = sc.next();
+        for(Usuario u : usuarios){
+            if(mail.equals(u.getCorreo())){
+                System.out.println("Este correo ya existe");
+                return;
+            }
+                  
+        }
+        System.out.println("Ingrese clave");
+        String clav = sc.next();
+      
+        Usuario un = new Usuario(id, nombre, apellido, org,mail, Utilitaria.toHexString(getSHA(clav)));
+        un.saveFile("compradores.txt");
+        
+        
+        
+                        
     }
     
     

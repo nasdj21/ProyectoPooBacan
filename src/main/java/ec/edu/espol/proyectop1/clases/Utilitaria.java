@@ -4,16 +4,35 @@
  */
 package ec.edu.espol.proyectop1.clases;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 
 /**
  *
  * @author nicolassierra
  */
 public class Utilitaria {
+    
+    private Utilitaria(){}
+    
+    public static int nextID(String nomfile){
+        int id = 0;
+        try(Scanner sc = new Scanner(new File(nomfile))){
+            while(sc.hasNextLine()){
+                String linea = sc.next();
+                String[] tokens = linea.split("\\|");
+                id = Integer.parseInt(tokens[0]);
+            }
+                
+            
+        }
+        catch (Exception e){}
+        return id+1;
+    }
     public static byte[] getSHA(String input) throws NoSuchAlgorithmException
     {
         // Static getInstance method is called with hashing SHA
