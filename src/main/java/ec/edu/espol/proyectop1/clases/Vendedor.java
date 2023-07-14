@@ -16,10 +16,17 @@ import java.util.Scanner;
  * @author nicolassierra
  */
 public class Vendedor extends Usuario{
+    private ArrayList<Vehiculo>vehiculos;
 
     public Vendedor(int id, String nombres, String apellidos, String organizacion, String correo, String clave) {
         super(id, nombres, apellidos, organizacion, correo, clave);
+        this.vehiculos = new ArrayList<>();
     }
+    
+    public ArrayList<Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+    
     public void vMenu() throws NoSuchAlgorithmException {
         Scanner sc = new Scanner(System.in);
         int opcion = 0;
@@ -147,17 +154,17 @@ public class Vendedor extends Usuario{
                 System.out.println("Ingrese el tipo de transmisión del vehículo:");
                 String tipoTransmision = sc.nextLine();
 
-                Auto auto = new Auto(placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, 0.0);
+                Auto auto = new Auto(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, 0.0);
                 auto.guardarInformacion();
             } else if (tipoVehiculo.equalsIgnoreCase("camioneta")) {
                 System.out.println("Ingrese el tipo de tracción del vehículo:");
                 String tipoTraccion = sc.nextLine();
 
-                Camioneta camioneta = new Camioneta(placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, "", tipoTraccion, 0.0);
+                Camioneta camioneta = new Camioneta(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, "", tipoTraccion, 0.0);
                 camioneta.guardarInformacion();
             }
         } else if (tipoVehiculo.equalsIgnoreCase("moto")) {
-            Auto moto = new Auto(placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, "", "", 0.0);
+            Auto moto = new Auto(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, "", "", 0.0);
             moto.guardarInformacion();
         }
 

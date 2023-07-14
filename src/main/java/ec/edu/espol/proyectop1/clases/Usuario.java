@@ -85,8 +85,14 @@ public class Usuario {
         System.out.println("Ingrese clave");
         String clav = sc.next();
       
-        Usuario un = new Usuario(id, nombre, apellido, org,mail, Utilitaria.toHexString(getSHA(clav)));
-        un.saveFile("compradores.txt");
+        if(nomfile.equals("compradores.txt")){
+            Usuario un = new Comprador(id, nombre, apellido, org,mail, Utilitaria.toHexString(getSHA(clav)));
+            un.saveFile(nomfile);
+        }
+        else{
+            Usuario un = new Vendedor(id, nombre, apellido, org,mail, Utilitaria.toHexString(getSHA(clav)));
+            un.saveFile(nomfile);
+        }
         
         
         

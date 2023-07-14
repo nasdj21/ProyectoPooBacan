@@ -18,14 +18,14 @@ public class Auto extends Vehiculo {
     private String tipoVidrios;
     private String tipoTransmision;
 
-    public Auto(String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, String tipoVidrios, String tipoTransmision, double precio) {
-        super(placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, precio);
+    public Auto(int id, String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, String tipoVidrios, String tipoTransmision, double precio) { //auto de verdad
+        super(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, precio);
         this.tipoVidrios = tipoVidrios;
         this.tipoTransmision = tipoTransmision;
     }
 
-    public Auto(String tipoVidrios, String tipoTransmision, String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, double precio) {
-        this(placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible,null,null, precio);
+    public Auto(int id, String tipoVidrios, String tipoTransmision, String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, double precio) { //Moto
+        this(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible,null,null, precio);
         
     }
 
@@ -44,6 +44,7 @@ public class Auto extends Vehiculo {
     @Override
     public void mostrarInformacion() {
         System.out.println("Información del Auto:");
+        System.out.println("Dueño: "+ getId());
         System.out.println("Placa: " + getPlaca());
         System.out.println("Marca: " + getMarca());
         System.out.println("Modelo: " + getModelo());
@@ -59,7 +60,7 @@ public class Auto extends Vehiculo {
 
     @Override
     public void guardarInformacion() {
-    String informacion = getPlaca() + "|" + getMarca() + "|" + getModelo() + "|" + getTipoMotor() + "|" + getAnio() + "|" + getRecorrido() + "|" + getColor() + "|" + getTipoCombustible() + "|" + getPrecio();
+    String informacion = getId() + "|" + getPlaca() + "|" + getMarca() + "|" + getModelo() + "|" + getTipoMotor() + "|" + getAnio() + "|" + getRecorrido() + "|" + getColor() + "|" + getTipoCombustible() + "|" + getPrecio();
 
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("vehiculos.txt"), true))) {
             pw.println(informacion);
@@ -78,20 +79,21 @@ public class Auto extends Vehiculo {
             while (scanner.hasNextLine()) {
                 String linea = scanner.nextLine();
                 String[] tokens = linea.split("\\|");
+                
+                int id = Integer.parseInt(tokens[0]);
+                String placa = tokens[1];
+                String marca = tokens[2];
+                String modelo = tokens[3];
+                String tipoMotor = tokens[4];
+                int anio = Integer.parseInt(tokens[5]);
+                int recorrido = Integer.parseInt(tokens[6]);
+                String color = tokens[7];
+                String tipoCombustible = tokens[8];
+                String tipoVidrios = tokens[9];
+                String tipoTransmision = tokens[10];
+                double precio = Double.parseDouble(tokens[11]);
 
-                String placa = tokens[0];
-                String marca = tokens[1];
-                String modelo = tokens[2];
-                String tipoMotor = tokens[3];
-                int anio = Integer.parseInt(tokens[4]);
-                int recorrido = Integer.parseInt(tokens[5]);
-                String color = tokens[6];
-                String tipoCombustible = tokens[7];
-                String tipoVidrios = tokens[8];
-                String tipoTransmision = tokens[9];
-                double precio = Double.parseDouble(tokens[10]);
-
-                Auto auto = new Auto(placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, precio);
+                Auto auto = new Auto(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, precio);
                 autos.add(auto);
             }
         

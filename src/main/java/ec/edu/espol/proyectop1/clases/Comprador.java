@@ -19,10 +19,18 @@ import java.util.Scanner;
  * @author nicolassierra
  */
 public class Comprador extends Usuario{
+    private ArrayList<Oferta>ofertas;
     
     public Comprador(int id, String nombres, String apellidos, String organizacion, String correo, String clave) {
         super(id, nombres, apellidos, organizacion, correo, clave);
+        this.ofertas = new ArrayList<>();
     }
+    
+    
+    public ArrayList<Oferta> getOfertas() {
+        return ofertas;
+    }    
+    
     public void cMenu() throws NoSuchAlgorithmException {
         Scanner sc = new Scanner(System.in);
         int opcion = 0;

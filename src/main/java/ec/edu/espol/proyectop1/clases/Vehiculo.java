@@ -9,6 +9,7 @@ package ec.edu.espol.proyectop1.clases;
  * @author eliez
  */
 public abstract class Vehiculo {
+    private int id;
     private String placa;
     private String marca;
     private String modelo;
@@ -18,8 +19,10 @@ public abstract class Vehiculo {
     private String color;
     private String tipoCombustible;
     private double precio;
+    
 
-    public Vehiculo(String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, double precio) {
+    public Vehiculo(int id, String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, double precio) {
+        this.id = id;
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
@@ -31,6 +34,12 @@ public abstract class Vehiculo {
         this.precio = precio;
     }
 
+    public int getId() {
+        return id;
+    }
+
+
+    
     public String getPlaca() {
         return placa;
     }
