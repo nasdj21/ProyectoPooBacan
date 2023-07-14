@@ -23,6 +23,37 @@ public class Comprador extends Usuario{
     public Comprador(int id, String nombres, String apellidos, String organizacion, String correo, String clave) {
         super(id, nombres, apellidos, organizacion, correo, clave);
     }
+    public void cMenu() throws NoSuchAlgorithmException {
+        Scanner sc = new Scanner(System.in);
+        int opcion = 0;
+
+        while (opcion != 3) { // Mientras la opción no sea "Regresar"
+            System.out.println("----- MENÚ COMPRADOR -----");
+            System.out.println("1. Registrar un nuevo comprador");
+            System.out.println("2. Ofertar por un vehículo");
+            System.out.println("3. Regresar");
+            System.out.println("--------------------------");
+            System.out.println("Ingrese su opción:");
+
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar el buffer del salto de línea
+
+            switch (opcion) {
+                case 1:
+                    crearComprador();
+                    break;
+//                case 2:
+//                    ofertarVehiculo();
+//                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Opción inválida. Intente nuevamente.");
+                    break;
+            }
+        }
+    }
+          
     
     
     public static void crearComprador() throws NoSuchAlgorithmException{

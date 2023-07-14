@@ -20,7 +20,40 @@ public class Vendedor extends Usuario{
     public Vendedor(int id, String nombres, String apellidos, String organizacion, String correo, String clave) {
         super(id, nombres, apellidos, organizacion, correo, clave);
     }
-    
+    public void vMenu() throws NoSuchAlgorithmException {
+        Scanner sc = new Scanner(System.in);
+        int opcion = 0;
+
+        while (opcion != 4) { // Mientras la opción no sea "Regresar"
+            System.out.println("----- MENÚ VENDEDOR -----");
+            System.out.println("1. Registrar un nuevo vendedor");
+            System.out.println("2. Registrar un nuevo vehículo");
+            System.out.println("3. Aceptar oferta");
+            System.out.println("4. Regresar");
+            System.out.println("--------------------------");
+            System.out.println("Ingrese su opción:");
+
+            opcion = sc.nextInt();
+            sc.nextLine(); // Limpiar el buffer del salto de línea
+
+            switch (opcion) {
+                case 1:
+                    crearVendedor();
+                    break;
+                case 2:
+                    ingresarNuevoVehiculo();
+                    break;
+                case 3:
+//                    aceptarOferta();
+//                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Opción inválida. Intente nuevamente.");
+                    break;
+            }
+        }
+    }
     
     
     public static void crearVendedor() throws NoSuchAlgorithmException{
