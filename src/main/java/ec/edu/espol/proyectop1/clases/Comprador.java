@@ -35,7 +35,7 @@ public class Comprador extends Usuario{
         Scanner sc = new Scanner(System.in);
         int opcion = 0;
 
-        while (opcion != 3) { // Mientras la opción no sea "Regresar"
+        while (opcion != 3) { 
             System.out.println("----- MENÚ COMPRADOR -----");
             System.out.println("1. Registrar un nuevo comprador");
             System.out.println("2. Ofertar por un vehículo");
@@ -44,15 +44,15 @@ public class Comprador extends Usuario{
             System.out.println("Ingrese su opción:");
 
             opcion = sc.nextInt();
-            sc.nextLine(); // Limpiar el buffer del salto de línea
+            sc.nextLine(); 
 
             switch (opcion) {
                 case 1:
                     crearComprador();
                     break;
-//                case 2:
-//                    ofertarVehiculo();
-//                    break;
+                case 2:
+                    crearOferta();
+                   break;
                 case 3:
                     break;
                 default:

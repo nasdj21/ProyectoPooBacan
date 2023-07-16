@@ -17,6 +17,7 @@ import java.util.Scanner;
  */
 public class Vendedor extends Usuario{
     private ArrayList<Vehiculo>vehiculos;
+    private ArrayList<Oferta> ofertas;
 
     public Vendedor(int id, String nombres, String apellidos, String organizacion, String correo, String clave) {
         super(id, nombres, apellidos, organizacion, correo, clave);
@@ -31,7 +32,7 @@ public class Vendedor extends Usuario{
         Scanner sc = new Scanner(System.in);
         int opcion = 0;
 
-        while (opcion != 4) { // Mientras la opción no sea "Regresar"
+        while (opcion != 4) { 
             System.out.println("----- MENÚ VENDEDOR -----");
             System.out.println("1. Registrar un nuevo vendedor");
             System.out.println("2. Registrar un nuevo vehículo");
@@ -41,7 +42,7 @@ public class Vendedor extends Usuario{
             System.out.println("Ingrese su opción:");
 
             opcion = sc.nextInt();
-            sc.nextLine(); // Limpiar el buffer del salto de línea
+            sc.nextLine(); 
 
             switch (opcion) {
                 case 1:
@@ -51,8 +52,8 @@ public class Vendedor extends Usuario{
                     ingresarNuevoVehiculo();
                     break;
                 case 3:
-//                    aceptarOferta();
-//                    break;
+                    aceptarOferta();
+                    break;
                 case 4:
                     break;
                 default:
@@ -134,11 +135,11 @@ public class Vendedor extends Usuario{
 
         System.out.println("Ingrese el año del vehículo:");
         int anio = sc.nextInt();
-        sc.nextLine(); // Limpiar el buffer del salto de línea
+        sc.nextLine(); 
 
         System.out.println("Ingrese el recorrido del vehículo:");
         int recorrido = sc.nextInt();
-        sc.nextLine(); // Limpiar el buffer del salto de línea
+        sc.nextLine(); 
 
         System.out.println("Ingrese el color del vehículo:");
         String color = sc.nextLine();
@@ -170,6 +171,124 @@ public class Vendedor extends Usuario{
 
         System.out.println("El vehículo se ha ingresado exitosamente.");
     }
+    
+    
+    public void aceptarOferta() throws NoSuchAlgorithmException {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Ingrese su correo electrónico:");
+        String correo = sc.nextLine();
+        System.out.println("Ingrese su clave:");
+        String clave = sc.nextLine();
+
+        if (!validarCredenciales(correo, clave)) {
+            System.out.println("Credenciales inválidas");
+            return;
+        }
+
+        System.out.println("Ingrese la placa del vehículo:");
+        String placa = sc.nextLine();
+
+        ArrayList<Oferta> ofertas = obtenerOfertasPorPlaca(placa);
+
+        if (ofertas.isEmpty()) {
+            System.out.println("No se encontraron ofertas para la placa de vehículo ingresada");
+            return;
+        }
+
+        
+        int indiceOfertaActual = 0;
+        int cantidadOfertas = ofertas.size();
+        boolean aceptarOferta = false;
+
+        while (!aceptarOferta) {
+            Oferta ofertaActual = ofertas.get(indiceOfertaActual);
+            Vehiculo vehiculo = ofertaActual.getVehiculo();
+
+            System.out.println("Placa: " + placa);
+            if (vehiculo instanceof Auto) {
+                Auto auto = (Auto) vehiculo;
+                System.out.println(auto.getMarca() + " " + auto.getModelo() + " Precio: " + auto.getPrecio());
+            } else if (vehiculo instanceof Camioneta) {
+                Camioneta camioneta = (Camioneta) vehiculo;
+                System.out.println(camioneta.getMarca() + " " + camioneta.getModelo() + " Precio: " + camioneta.getPrecio());
+            }
+            System.out.println("Se han realizado " + cantidadOfertas + " ofertas");
+            System.out.println("Oferta " + (indiceOfertaActual + 1));
+            System.out.println("Correo: " + ofertaActual.getComprador().getCorreo());
+            System.out.println("Precio Ofertado: " + ofertaActual.getPrecioOfertado());
+            System.out.println("1. Siguiente Oferta");
+            System.out.println("2. Anterior Oferta");
+            System.out.println("3. Aceptar Oferta");
+
+            int opcion = sc.nextInt();
+            sc.nextLine(); 
+
+            switch (opcion) {
+                case 1:
+                    if (indiceOfertaActual < cantidadOfertas - 1) {
+                        indiceOfertaActual++;
+                    } else {
+                        System.out.println("Ya no hay más ofertas disponibles");
+                    }
+                    break;
+                case 2:
+                    if (indiceOfertaActual > 0) {
+                        indiceOfertaActual--;
+                    } else {
+                        System.out.println("Ya estás en la primera oferta");
+                    }
+                    break;
+                case 3:
+                    aceptarOferta(ofertaActual, placa);
+                    aceptarOferta = true;
+                    break;
+                default:
+                    System.out.println("Opción inválida. Intente nuevamente.");
+                    break;
+            }
+        }
+    }
+
+    private void aceptarOferta(Oferta oferta, String placa) {
+        Vehiculo vehiculoEncontrado = null;
+
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getPlaca().equalsIgnoreCase(placa)) {
+                vehiculoEncontrado = vehiculo;
+                break;
+            }
+        }
+
+        if (vehiculoEncontrado != null) {
+            vehiculos.remove(vehiculoEncontrado);
+            ofertas.remove(oferta);
+
+            String destinatario = oferta.getComprador().getCorreo();
+            String asunto = "Oferta aceptada";
+            String cuerpo = "Su oferta por el vehículo con placa " + placa + " ha sido aceptada.";
+            Utilitaria.enviarConGMail(destinatario, asunto, cuerpo);
+
+            
+
+            System.out.println("Se ha aceptado la oferta y se eliminó el vehículo del sistema");
+        } else {
+            System.out.println("No se encontró un vehículo con la placa ingresada");
+        }
+    }
+    private ArrayList<Oferta> obtenerOfertasPorPlaca(String placa) {
+        ArrayList<Oferta> ofertasEncontradas = new ArrayList<>();
+
+        for (Oferta oferta : ofertas) {
+            if (oferta.getVehiculo().getPlaca().equalsIgnoreCase(placa)) {
+                ofertasEncontradas.add(oferta);
+            }
+        }
+
+        return ofertasEncontradas;
+    }
+       
+     
      
 
 }

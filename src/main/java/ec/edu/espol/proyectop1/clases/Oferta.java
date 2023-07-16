@@ -15,6 +15,29 @@ public class Oferta {
     Comprador comprador;
     Vendedor vendedor;
     Vehiculo vehiculo;
+    private double precioOfertado;
+
+    
+   
+    public Oferta(Comprador comprador, Vendedor vendedor, Vehiculo vehiculo, double precioOfertado) {
+        this.comprador = comprador;
+        this.vendedor = vendedor;
+        this.vehiculo = vehiculo;
+        this.precioOfertado = precioOfertado;
+        
+            
+    }
+    public double getPrecioOfertado() {
+        return precioOfertado;
+    }
+    
+    public Comprador getComprador() {
+        return comprador;
+    }
+    
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
     
     public void ofertarVehiculo(){
         Scanner sc = new Scanner(System.in);

@@ -21,7 +21,7 @@ public class ProyectoP1 {
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
 
-        while (opcion != 3) { // Mientras la opción no sea "Salir"
+        while (opcion != 3) { 
             System.out.println("----- MENÚ PRINCIPAL -----");
             System.out.println("1. Vendedor");
             System.out.println("2. Comprador");
@@ -30,7 +30,7 @@ public class ProyectoP1 {
             System.out.println("Ingrese su opción:");
 
             opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar el buffer del salto de línea
+            scanner.nextLine(); 
 
             switch (opcion) {
                 case 1:
