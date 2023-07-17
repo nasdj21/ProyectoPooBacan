@@ -1,0 +1,2 @@
+0|gin978|kia|rio|diesel|2020|5000|gris|super|polarizado|nose|0.0
+0|gin007|Chevrolet|Aveo|Combustion|2015|70000|Negro|Diesel||Nose|6000.0

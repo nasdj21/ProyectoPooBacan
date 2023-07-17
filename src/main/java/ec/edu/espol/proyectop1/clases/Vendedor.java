@@ -171,6 +171,9 @@ public class Vendedor extends Usuario{
 
         System.out.println("Ingrese el tipo de combustible del vehículo:");
         String tipoCombustible = sc.nextLine();
+        
+        System.out.println("Ingrese precio del vehiculo: ");
+        double preciop = sc.nextDouble();
 
         if (tipoVehiculo.equalsIgnoreCase("auto") || tipoVehiculo.equalsIgnoreCase("camioneta")) {
             System.out.println("Ingrese el tipo de vidrios del vehículo:");
@@ -180,17 +183,17 @@ public class Vendedor extends Usuario{
                 System.out.println("Ingrese el tipo de transmisión del vehículo:");
                 String tipoTransmision = sc.nextLine();
 
-                Auto auto = new Auto(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, 0.0);
+                Auto auto = new Auto(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, preciop);
                 auto.guardarInformacion();
             } else if (tipoVehiculo.equalsIgnoreCase("camioneta")) {
                 System.out.println("Ingrese el tipo de tracción del vehículo:");
                 String tipoTraccion = sc.nextLine();
 
-                Camioneta camioneta = new Camioneta(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, "", 0.0, tipoTraccion);
+                Camioneta camioneta = new Camioneta(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, "", preciop, tipoTraccion);
                 camioneta.guardarInformacion();
             }
         } else if (tipoVehiculo.equalsIgnoreCase("moto")) {
-            Auto moto = new Auto(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, "", "", 0.0);
+            Auto moto = new Auto(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, "", "", preciop);
             moto.guardarInformacion();
         }
 
@@ -301,7 +304,9 @@ public class Vendedor extends Usuario{
             System.out.println("No se encontró un vehículo con la placa ingresada");
         }
     }
-        
+    
+    
+      
      
      
 

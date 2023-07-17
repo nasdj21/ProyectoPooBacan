@@ -1,0 +1,2 @@
+null|null|ec.edu.espol.proyectop1.clases.Auto@24d46ca6|7000.0
+correo|null|Aveo|90000.0
