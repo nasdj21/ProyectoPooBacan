@@ -96,6 +96,10 @@ public class Comprador extends Usuario{
         
     }
     public void crearOferta(){
+        Oferta oferta = new Oferta(null, null, null, 0);
+        
+        oferta.ofertarVehiculo();
+        
         
     }
 }

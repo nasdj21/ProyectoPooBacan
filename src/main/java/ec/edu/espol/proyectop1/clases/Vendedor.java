@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.proyectop1.clases;
 
+import static ec.edu.espol.proyectop1.clases.Oferta.leerOfertaPorPlaca;
 import static ec.edu.espol.proyectop1.clases.Utilitaria.getSHA;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
@@ -213,7 +214,7 @@ public class Vendedor extends Usuario{
         System.out.println("Ingrese la placa del vehículo:");
         String placa = sc.nextLine();
 
-        ArrayList<Oferta> ofertas = obtenerOfertasPorPlaca(placa);
+        ArrayList<Oferta> ofertas = leerOfertaPorPlaca("oferta.txt", placa);
 
         if (ofertas.isEmpty()) {
             System.out.println("No se encontraron ofertas para la placa de vehículo ingresada");
@@ -300,18 +301,7 @@ public class Vendedor extends Usuario{
             System.out.println("No se encontró un vehículo con la placa ingresada");
         }
     }
-    private ArrayList<Oferta> obtenerOfertasPorPlaca(String placa) {
-        ArrayList<Oferta> ofertasEncontradas = new ArrayList<>();
-
-        for (Oferta oferta : ofertas) {
-            if (oferta.getVehiculo().getPlaca().equalsIgnoreCase(placa)) {
-                ofertasEncontradas.add(oferta);
-            }
-        }
-
-        return ofertasEncontradas;
-    }
-       
+        
      
      
 
