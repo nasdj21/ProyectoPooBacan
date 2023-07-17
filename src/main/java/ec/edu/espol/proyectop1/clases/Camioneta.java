@@ -2,6 +2,8 @@ package ec.edu.espol.proyectop1.clases;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 /**
  *
  * @author eliez
@@ -9,7 +11,7 @@ import java.io.PrintWriter;
 public class Camioneta extends Auto {
     private String tipoTraccion;
 
-    public Camioneta(int id, String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, String tipoVidrios, String tipoTransmision, String tipoTraccion, double precio) {
+    public Camioneta(int id, String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, String tipoVidrios, String tipoTransmision, double precio, String tipoTraccion) {
         super(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, precio);
         this.tipoTraccion = tipoTraccion;
     }
@@ -34,4 +36,38 @@ public class Camioneta extends Auto {
             System.out.println( e.getMessage());
         }
     }
+    
+    public static ArrayList<Camioneta> leerVehiculo1(String archivoVehiculo) {
+        ArrayList<Camioneta> camionetas = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(new File(archivoVehiculo))) {
+            while (scanner.hasNextLine()) {
+                String linea = scanner.nextLine();
+                String[] tokens = linea.split("\\|");
+                
+                int id = Integer.parseInt(tokens[0]);
+                String placa = tokens[1];
+                String marca = tokens[2];
+                String modelo = tokens[3];
+                String tipoMotor = tokens[4];
+                int anio = Integer.parseInt(tokens[5]);
+                int recorrido = Integer.parseInt(tokens[6]);
+                String color = tokens[7];
+                String tipoCombustible = tokens[8];
+                String tipoVidrios = tokens[9];
+                String tipoTransmision = tokens[10];
+                double precio = Double.parseDouble(tokens[11]);
+                String tipoTraccion = tokens[12];
+
+                Camioneta camioneta = new Camioneta(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, precio, tipoTraccion);
+                camionetas.add(camioneta);
+            }
+        
+        } catch (Exception e) {
+            System.out.println( e.getMessage());
+        }
+       
+
+        return camionetas;
+        }
 }

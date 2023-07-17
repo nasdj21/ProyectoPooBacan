@@ -60,7 +60,7 @@ public class Auto extends Vehiculo {
 
     @Override
     public void guardarInformacion() {
-    String informacion = getId() + "|" + getPlaca() + "|" + getMarca() + "|" + getModelo() + "|" + getTipoMotor() + "|" + getAnio() + "|" + getRecorrido() + "|" + getColor() + "|" + getTipoCombustible() + "|" + getPrecio();
+    String informacion = getId() + "|" + getPlaca() + "|" + getMarca() + "|" + getModelo() + "|" + getTipoMotor() + "|" + getAnio() + "|" + getRecorrido() + "|" + getColor() + "|" + getTipoCombustible() + "|" + tipoVidrios + "|" + tipoTransmision + "|" + getPrecio();
 
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(new File("vehiculos.txt"), true))) {
             pw.println(informacion);

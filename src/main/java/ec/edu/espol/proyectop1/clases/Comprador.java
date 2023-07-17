@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import ec.edu.espol.proyectop1.clases.Oferta;
 
 
 
@@ -51,7 +52,7 @@ public class Comprador extends Usuario{
                     crearComprador();
                     break;
                 case 2:
-                    crearOferta();
+                    crearOferta(); 
                    break;
                 case 3:
                     break;

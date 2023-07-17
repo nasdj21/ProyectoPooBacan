@@ -161,7 +161,7 @@ public class Vendedor extends Usuario{
                 System.out.println("Ingrese el tipo de tracción del vehículo:");
                 String tipoTraccion = sc.nextLine();
 
-                Camioneta camioneta = new Camioneta(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, "", tipoTraccion, 0.0);
+                Camioneta camioneta = new Camioneta(id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, "", 0.0, tipoTraccion);
                 camioneta.guardarInformacion();
             }
         } else if (tipoVehiculo.equalsIgnoreCase("moto")) {
