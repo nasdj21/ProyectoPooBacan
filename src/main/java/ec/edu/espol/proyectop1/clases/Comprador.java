@@ -12,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import ec.edu.espol.proyectop1.clases.Oferta;
+import java.io.FileNotFoundException;
 
 
 
@@ -31,6 +32,30 @@ public class Comprador extends Usuario{
     public ArrayList<Oferta> getOfertas() {
         return ofertas;
     }    
+    
+    public static ArrayList<Comprador> leerComprador(String nomfile)  { //Para leer un archivo
+        ArrayList<Comprador> compradores= new ArrayList<>();
+        try(Scanner sc = new Scanner(new File(nomfile))){
+            while(sc.hasNextLine()){
+                
+                // linea = Nicolas|Sierra|Espol|nasierra@espol.edu.ec|claveNueva
+                String linea = sc.nextLine();
+                String[] tokens = linea.split("\\|");
+                Comprador u = new Comprador(Integer.parseInt(tokens[0]), tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]);
+                compradores.add(u); 
+                
+            }
+                
+        }
+        
+        catch(Exception e){
+                System.out.println(e.getMessage());
+        }
+        return compradores;
+        
+    
+    }
+    
     
     public void cMenu() throws NoSuchAlgorithmException {
         Scanner sc = new Scanner(System.in);

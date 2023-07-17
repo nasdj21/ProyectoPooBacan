@@ -1,9 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.espol.proyectop1.clases;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,7 +14,7 @@ public class Oferta {
     Comprador comprador;
     Vendedor vendedor;
     Vehiculo vehiculo;
-    private double precioOfertado;
+    private final double precioOfertado;
 
     
    
@@ -38,6 +37,17 @@ public class Oferta {
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
+    
+    public void guardarOferta(String nomFile){ //Para escribir y crear un archivo
+        try(PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomFile), true))){
+            pw.println(this.comprador+"|"+this.vendedor+"|"+this.vehiculo+"|"+this.precioOfertado);
+        }
+        catch(Exception e){ //lo que deberia hacer en el caso de que el archivo no existe
+            System.out.println(e.getMessage());
+        }
+    }  
+    
+   
     
     @SuppressWarnings("empty-statement")
     public void ofertarVehiculo(){
@@ -71,21 +81,41 @@ public class Oferta {
             
 
             if (tipoVehiculo.equalsIgnoreCase("auto")) {
-                
-                
+               
                 for(Auto au : vehiculos) {
                 
-                if(Integer.parseInt(r[0]) >= au.getRecorrido() && Integer.parseInt(r[1]) <= au.getRecorrido() && Integer.parseInt(a[0]) >= au.getAnio() && Integer.parseInt(a[1]) <= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio()){
+                    if(Integer.parseInt(r[0]) >= au.getRecorrido() && Integer.parseInt(r[1]) <= au.getRecorrido() && Integer.parseInt(a[0]) >= au.getAnio() && Integer.parseInt(a[1]) <= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio()){
                         System.out.println("Vehiculo encontrado:"); 
-                        au.mostrarInformacion(); }
+                        au.mostrarInformacion();
+                        System.out.println("\n ¿ Desea ofertar $ ?");
+                        String respuesta = sc.next();
+                        if(respuesta.equalsIgnoreCase("si")){
+                            System.out.println("¿Cuanto desea ofertar?");
+                            double valorOfertado = sc.nextDouble();
+                            Oferta oferta = new Oferta(this.comprador, au.getDueño(), au, valorOfertado);
+                            oferta.guardarOferta("ofertas.txt");
+                        }
+                        else{}
+                    }
+                    
                 }   
             } else if (tipoVehiculo.equalsIgnoreCase("moto")) {
                 
                 for(Auto au : vehiculos) {
                 
-                if(au.getTipoVidrios() == null && Integer.parseInt(r[0]) >= au.getRecorrido() && Integer.parseInt(r[1]) <= au.getRecorrido() && Integer.parseInt(a[0]) >= au.getAnio() && Integer.parseInt(a[1]) <= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio()){
+                    if(au.getTipoVidrios() == null && Integer.parseInt(r[0]) >= au.getRecorrido() && Integer.parseInt(r[1]) <= au.getRecorrido() && Integer.parseInt(a[0]) >= au.getAnio() && Integer.parseInt(a[1]) <= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio()){
                     System.out.println("Vehiculo encontrado:");
-                    au.mostrarInformacion(); }
+                    au.mostrarInformacion(); 
+                    System.out.println("\n ¿ Desea ofertar $ ?");
+                        String respuesta = sc.next();
+                        if(respuesta.equalsIgnoreCase("si")){
+                            System.out.println("¿Cuanto desea ofertar?");
+                            double valorOfertado = sc.nextDouble();
+                            Oferta oferta = new Oferta(this.comprador, au.getDueño(), au, valorOfertado);
+                            oferta.guardarOferta("ofertas.txt");
+                        }
+                        else{}
+                    }
                 }
                 
             
@@ -97,25 +127,39 @@ public class Oferta {
                     
                     if(Integer.parseInt(r[0]) >= ca.getRecorrido() && Integer.parseInt(r[1]) <= ca.getRecorrido() && Integer.parseInt(a[0]) >= ca.getAnio() && Integer.parseInt(a[1]) <= ca.getAnio() && Double.parseDouble(p[0]) <= ca.getPrecio() && Double.parseDouble(p[1]) >= ca.getPrecio()){
                         System.out.println("Vehiculo encontrado:"); 
-                        ca.mostrarInformacion(); }
+                        ca.mostrarInformacion(); 
+                        System.out.println("\n ¿ Desea ofertar $ ?");
+                        String respuesta = sc.next();
+                        if(respuesta.equalsIgnoreCase("si")){
+                            System.out.println("¿Cuanto desea ofertar?");
+                            double valorOfertado = sc.nextDouble();
+                            Oferta oferta = new Oferta(this.comprador, ca.getDueño(), ca, valorOfertado);
+                            oferta.guardarOferta("ofertas.txt");
+                        }
+                        else{}
+                        
+                    }
+                }
+                 
                     
                 
                 
                 
-            } else {
+            }else
                 
                 System.out.println("Tipo de vehículo no válido. Intente nuevamente.");
                 
-            }
+            
                 
            
                 
          } while (!tipoVehiculo.equalsIgnoreCase("auto") && !tipoVehiculo.equalsIgnoreCase("moto") && !tipoVehiculo.equalsIgnoreCase("camioneta"));
         
             }
+        }
+
+
             
-            
-                    
                 
         
                 

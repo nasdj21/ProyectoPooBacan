@@ -37,6 +37,15 @@ public abstract class Vehiculo {
     public int getId() {
         return id;
     }
+    
+    public Vendedor getDueño(){
+        for(Vendedor v : Vendedor.leerVendedor("vendedores.txt")){
+            if(v.getId() == this.id)
+                return v;
+        }
+        return null;
+           
+    }
 
 
     

@@ -98,6 +98,10 @@ public class Usuario {
         
                         
     }
+
+    public int getId() {
+        return id;
+    }
     
     
 

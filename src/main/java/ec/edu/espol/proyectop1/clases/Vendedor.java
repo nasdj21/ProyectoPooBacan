@@ -28,6 +28,30 @@ public class Vendedor extends Usuario{
         return vehiculos;
     }
     
+     public static ArrayList<Vendedor> leerVendedor(String nomfile) { //Para leer un archivo
+        ArrayList<Vendedor> vendedores = new ArrayList<>();
+        try(Scanner sc = new Scanner(new File(nomfile))){
+            while(sc.hasNextLine()){
+                
+                // linea = Nicolas|Sierra|Espol|nasierra@espol.edu.ec|claveNueva
+                String linea = sc.nextLine();
+                String[] tokens = linea.split("\\|");
+                Vendedor u = new Vendedor(Integer.parseInt(tokens[0]), tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]);
+                vendedores.add(u);
+                
+            }
+                
+        }
+            
+        
+        catch(Exception e){
+                System.out.println(e.getMessage());
+        }
+        return vendedores;
+        
+    
+    }
+    
     public void vMenu() throws NoSuchAlgorithmException {
         Scanner sc = new Scanner(System.in);
         int opcion = 0;
