@@ -47,6 +47,7 @@ public class Comprador extends Usuario{
         catch(Exception e){
                 System.out.println(e.getMessage());
         }
+        
         return compradores;
         
     
@@ -116,12 +117,15 @@ public class Comprador extends Usuario{
     }
     
     public static Comprador encontrarComprador(String correo) throws NoSuchAlgorithmException{
-        ArrayList<Comprador>compradores = Comprador.leerComprador("vendedores.txt");
+        ArrayList<Comprador>compradores = Comprador.leerComprador("compradores.txt");
         for(Comprador c : compradores){
             if(correo.equals(c.getCorreo()))
                 return c;
+            else
+                return null;
         }
         return null;
+        
     }
     
     public void ofertar(Vehiculo v){
@@ -209,7 +213,7 @@ public class Comprador extends Usuario{
             if (tipoVehiculo.equalsIgnoreCase("auto")) {
                
                 for(Auto au : vehiculos) {
-                    if(!(au.getTipoVidrios().equals(null)) && Integer.parseInt(r[0]) <= au.getRecorrido() && Integer.parseInt(r[1]) >= au.getRecorrido() && Integer.parseInt(a[0]) <= au.getAnio() && Integer.parseInt(a[1]) >= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio())
+                    if(!(au.getTipoVidrios() == (null)) && Integer.parseInt(r[0]) <= au.getRecorrido() && Integer.parseInt(r[1]) >= au.getRecorrido() && Integer.parseInt(a[0]) <= au.getAnio() && Integer.parseInt(a[1]) >= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio())
                         fin.add(au); 
                     else
                         System.out.println("No se ha encontrado vehiculo con sus especificaciones");
@@ -218,7 +222,7 @@ public class Comprador extends Usuario{
                 
                 for(Auto au : vehiculos) {
                 
-                    if(au.getTipoVidrios().equals(null) && Integer.parseInt(r[0]) <= au.getRecorrido() && Integer.parseInt(r[1]) >= au.getRecorrido() && Integer.parseInt(a[0]) <= au.getAnio() && Integer.parseInt(a[1]) >= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio())
+                    if(au.getTipoVidrios() == null && Integer.parseInt(r[0]) <= au.getRecorrido() && Integer.parseInt(r[1]) >= au.getRecorrido() && Integer.parseInt(a[0]) <= au.getAnio() && Integer.parseInt(a[1]) >= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio())
                         fin.add(au);
                     else
                         System.out.println("No se ha encontrado vehiculo con sus especificaciones");

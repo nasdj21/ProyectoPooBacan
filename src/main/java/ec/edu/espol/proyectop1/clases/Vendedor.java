@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class Vendedor extends Usuario{
     private ArrayList<Vehiculo>vehiculos;
-    private ArrayList<Oferta> ofertas;
+
 
     public Vendedor(int id, String nombres, String apellidos, String organizacion, String correo, String clave) {
         super(id, nombres, apellidos, organizacion, correo, clave);
@@ -39,15 +39,22 @@ public class Vendedor extends Usuario{
             }
                 
         }
-            
-        
         catch(Exception e){
                 System.out.println(e.getMessage());
         }
+        
+        ArrayList<Auto> autos = Auto.leerVehiculo("vehiculos.txt");
+        for(Vendedor v : vendedores){
+            for(Auto a : autos){
+                if(a.getId() == v.getId())
+                    v.getVehiculos().add(a);
+            }   
+        }
+
         return vendedores;
         
+     }
     
-    }
      
     public static Vendedor encontrarVendedor() throws NoSuchAlgorithmException{
         Scanner sc = new Scanner(System.in);
@@ -77,6 +84,8 @@ public class Vendedor extends Usuario{
     }
     
     public void vMenu() throws NoSuchAlgorithmException {
+        Vendedor.leerVendedor("vendedores.txt");
+        Comprador.leerComprador("compradores.txt");
         Scanner sc = new Scanner(System.in);
         int opcion = 0;
 
@@ -198,16 +207,19 @@ public class Vendedor extends Usuario{
 
                 Auto auto = new Auto(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, preciop);
                 auto.guardarInformacion();
+                this.vehiculos.add(auto);
             } else if (tipoVehiculo.equalsIgnoreCase("camioneta")) {
                 System.out.println("Ingrese el tipo de tracción del vehículo:");
                 String tipoTraccion = sc.next();
 
-                Camioneta camioneta = new Camioneta(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, "", preciop, tipoTraccion);
+                Camioneta camioneta = new Camioneta(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, null, preciop, tipoTraccion);
                 camioneta.guardarInformacion();
+                this.vehiculos.add(camioneta);
             }
         } else if (tipoVehiculo.equalsIgnoreCase("moto")) {
-            Auto moto = new Auto(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, "", "", preciop);
+            Auto moto = new Auto(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, null, null, preciop);
             moto.guardarInformacion();
+            this.vehiculos.add(moto);
         }
 
         System.out.println("El vehículo se ha ingresado exitosamente.");
@@ -217,7 +229,6 @@ public class Vendedor extends Usuario{
     public void aceptarOferta() throws NoSuchAlgorithmException {
         Scanner sc = new Scanner(System.in);
 
-        Vendedor.encontrarVendedor();
 
         System.out.println("Ingrese la placa del vehículo:");
         String placa = sc.next();
@@ -238,11 +249,13 @@ public class Vendedor extends Usuario{
             Oferta ofertaActual = ofertas.get(indiceOfertaActual);
             Vehiculo vehiculo = ofertaActual.getVehiculo();
 
-            System.out.println("Placa: " + placa);
+          
             if (vehiculo instanceof Auto) {
+                System.out.println("Placa: " + vehiculo.getPlaca());
                 Auto auto = (Auto) vehiculo;
                 System.out.println(auto.getMarca() + " " + auto.getModelo() + " Precio: " + auto.getPrecio());
             } else if (vehiculo instanceof Camioneta) {
+                System.out.println("Placa: " + vehiculo.getPlaca());
                 Camioneta camioneta = (Camioneta) vehiculo;
                 System.out.println(camioneta.getMarca() + " " + camioneta.getModelo() + " Precio: " + camioneta.getPrecio());
             }
@@ -273,8 +286,8 @@ public class Vendedor extends Usuario{
                     }
                     break;
                 case 3:
-                    aceptarOferta(ofertaActual, placa);
                     aceptarOferta = true;
+                    Vendedor.encontrarVendedor().aceptarOferta(ofertaActual, placa);
                     break;
                 default:
                     System.out.println("Opción inválida. Intente nuevamente.");
@@ -283,31 +296,40 @@ public class Vendedor extends Usuario{
         }
     }
 
-    private void aceptarOferta(Oferta oferta, String placa) {
+    public void aceptarOferta(Oferta oferta, String placa) throws NoSuchAlgorithmException {
         Vehiculo vehiculoEncontrado = null;
+        System.out.println("Entre al metodo");
 
         for (Vehiculo vehiculo : vehiculos) {
+            System.out.println("Entre al for");
             if (vehiculo.getPlaca().equalsIgnoreCase(placa)) {
                 vehiculoEncontrado = vehiculo;
+                if (vehiculoEncontrado != null) {
+                    vehiculos.remove(vehiculoEncontrado);
+                    Comprador c = Comprador.encontrarComprador(oferta.getComprador().getCorreo());
+                    c.getOfertas().remove(oferta);
+                    
+
+                    String destinatario = oferta.getComprador().getCorreo();
+                    String asunto = "Oferta aceptada";
+                    String cuerpo = "Su oferta por el vehículo con placa " + placa + " ha sido aceptada.";
+                    Utilitaria.enviarConGMail(destinatario, asunto, cuerpo);
+                    
+                    
+
+
+                    System.out.println("Se ha aceptado la oferta y se eliminó el vehículo del sistema");
+                }       
+                else 
+                    System.out.println("No se encontró un vehículo con la placa ingresada");
                 break;
+                
             }
+            else
+                System.out.println("PRUEBA NO SE");
         }
 
-        if (vehiculoEncontrado != null) {
-            vehiculos.remove(vehiculoEncontrado);
-            ofertas.remove(oferta);
-
-            String destinatario = oferta.getComprador().getCorreo();
-            String asunto = "Oferta aceptada";
-            String cuerpo = "Su oferta por el vehículo con placa " + placa + " ha sido aceptada.";
-            Utilitaria.enviarConGMail(destinatario, asunto, cuerpo);
-
-            
-
-            System.out.println("Se ha aceptado la oferta y se eliminó el vehículo del sistema");
-        } else {
-            System.out.println("No se encontró un vehículo con la placa ingresada");
-        }
+        
     }
     
     

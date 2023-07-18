@@ -31,9 +31,9 @@ public class Oferta {
     public double getPrecioOfertado() {
         return this.precioOfertado;
     }
-    
+
     public Comprador getComprador() {
-        return this.comprador;
+        return comprador;
     }
     
     public Vehiculo getVehiculo() {
@@ -50,7 +50,9 @@ public class Oferta {
     }
     
     public static ArrayList<Oferta> leerOfertaPorPlaca(String archivo, String placa) throws NoSuchAlgorithmException {
-        ArrayList<Oferta> ofertas = new ArrayList<>();
+        Comprador.leerComprador("compradores.txt");
+        Vendedor.leerVendedor("vendedores.txt");
+        ArrayList<Oferta> ofertasp = new ArrayList<>();
         
         try (Scanner scanner = new Scanner(new File(archivo))) {
             while (scanner.hasNextLine()) {
@@ -67,14 +69,14 @@ public class Oferta {
                 Comprador comp = Comprador.encontrarComprador(correoComprador);
                 
                 Oferta of = new Oferta(comp,vend,veh, precioOfertado);
-                ofertas.add(of);
+                ofertasp.add(of);
 
                 }
         } catch (FileNotFoundException e) {
             System.out.println("Error al leer el archivo de ofertas: " + e.getMessage());
         }
 
-        return ofertas;
+        return ofertasp;
         }   
     
  }
