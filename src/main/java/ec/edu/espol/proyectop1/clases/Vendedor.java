@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.espol.proyectop1.clases;
 
 import static ec.edu.espol.proyectop1.clases.Oferta.leerOfertaPorPlaca;
@@ -52,6 +48,33 @@ public class Vendedor extends Usuario{
         
     
     }
+     
+    public static Vendedor encontrarVendedor() throws NoSuchAlgorithmException{
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Vendedor>vendedores = Vendedor.leerVendedor("vendedores.txt");
+        System.out.println("Ingrese correo");
+        String mail = sc.next();
+        System.out.println("Ingrese clave");
+        String clave = sc.next();
+        for(Vendedor c : vendedores){
+            if(c.getCorreo().equals(mail) && c.getClave().equals(Utilitaria.toHexString(getSHA(clave))))
+                return c;
+            else{
+                System.out.println("Vendedor no existente");
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    public static Vendedor encontrarVendedor(String correo) throws NoSuchAlgorithmException{
+        ArrayList<Vendedor>vendedores = Vendedor.leerVendedor("vendedores.txt");
+        for(Vendedor c : vendedores){
+            if(correo.equals(c.getCorreo()))
+                return c;
+        }
+        return null;
+    }
     
     public void vMenu() throws NoSuchAlgorithmException {
         Scanner sc = new Scanner(System.in);
@@ -71,13 +94,13 @@ public class Vendedor extends Usuario{
 
             switch (opcion) {
                 case 1:
-                    crearVendedor();
+                    Vendedor.crearVendedor();
                     break;
                 case 2:
-                    ingresarNuevoVehiculo();
+                    Vendedor.encontrarVendedor().ingresarNuevoVehiculo();
                     break;
                 case 3:
-                    aceptarOferta();
+                    Vendedor.encontrarVendedor().aceptarOferta();
                     break;
                 case 4:
                     break;
@@ -126,17 +149,7 @@ public class Vendedor extends Usuario{
         Scanner sc = new Scanner(System.in);
 
         
-        System.out.println("Ingrese su correo electrónico:");
-        String correo = sc.nextLine();
-        System.out.println("Ingrese su clave:");
-        String clave = sc.nextLine();
 
-        if (!validarCredenciales(correo, clave)) {
-            System.out.println("Credenciales inválidas");
-            return;
-        }
-
-        
         System.out.println("Ingrese el tipo de vehículo (auto, camioneta, moto):");
         String tipoVehiculo = sc.nextLine();
 
@@ -177,17 +190,17 @@ public class Vendedor extends Usuario{
 
         if (tipoVehiculo.equalsIgnoreCase("auto") || tipoVehiculo.equalsIgnoreCase("camioneta")) {
             System.out.println("Ingrese el tipo de vidrios del vehículo:");
-            String tipoVidrios = sc.nextLine();
+            String tipoVidrios = sc.next();
 
             if (tipoVehiculo.equalsIgnoreCase("auto")) {
                 System.out.println("Ingrese el tipo de transmisión del vehículo:");
-                String tipoTransmision = sc.nextLine();
+                String tipoTransmision = sc.next();
 
                 Auto auto = new Auto(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, tipoTransmision, preciop);
                 auto.guardarInformacion();
             } else if (tipoVehiculo.equalsIgnoreCase("camioneta")) {
                 System.out.println("Ingrese el tipo de tracción del vehículo:");
-                String tipoTraccion = sc.nextLine();
+                String tipoTraccion = sc.next();
 
                 Camioneta camioneta = new Camioneta(this.id, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, tipoVidrios, "", preciop, tipoTraccion);
                 camioneta.guardarInformacion();
@@ -204,20 +217,12 @@ public class Vendedor extends Usuario{
     public void aceptarOferta() throws NoSuchAlgorithmException {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Ingrese su correo electrónico:");
-        String correo = sc.nextLine();
-        System.out.println("Ingrese su clave:");
-        String clave = sc.nextLine();
-
-        if (!validarCredenciales(correo, clave)) {
-            System.out.println("Credenciales inválidas");
-            return;
-        }
+        Vendedor.encontrarVendedor();
 
         System.out.println("Ingrese la placa del vehículo:");
-        String placa = sc.nextLine();
+        String placa = sc.next();
 
-        ArrayList<Oferta> ofertas = leerOfertaPorPlaca("oferta.txt", placa);
+        ArrayList<Oferta> ofertas = leerOfertaPorPlaca("ofertas.txt", placa);
 
         if (ofertas.isEmpty()) {
             System.out.println("No se encontraron ofertas para la placa de vehículo ingresada");
@@ -244,7 +249,7 @@ public class Vendedor extends Usuario{
             System.out.println("Se han realizado " + cantidadOfertas + " ofertas");
             System.out.println("Oferta " + (indiceOfertaActual + 1));
             System.out.println("Correo: " + ofertaActual.getComprador().getCorreo());
-            System.out.println("Precio Ofertado: " + ofertaActual.getPrecioOfertado());
+            System.out.println("Precio Ofertado: " + ofertaActual.getPrecioOfertado()+"\n");
             System.out.println("1. Siguiente Oferta");
             System.out.println("2. Anterior Oferta");
             System.out.println("3. Aceptar Oferta");

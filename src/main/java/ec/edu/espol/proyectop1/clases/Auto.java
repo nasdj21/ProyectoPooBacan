@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.espol.proyectop1.clases;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -104,6 +100,16 @@ public class Auto extends Vehiculo {
 
         return autos;
         }
+    
+    public static Vehiculo encontrarVehiculo(String placa){
+        ArrayList<Auto> autos = Auto.leerVehiculo("vehiculos.txt");
+        for(Auto a : autos){
+            if(a.getPlaca().equals(placa))
+                return a;
+        }
+        return null;
+          
+    }
         
     
 }

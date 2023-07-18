@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,27 +29,27 @@ public class Oferta {
             
     }
     public double getPrecioOfertado() {
-        return precioOfertado;
+        return this.precioOfertado;
     }
     
     public Comprador getComprador() {
-        return comprador;
+        return this.comprador;
     }
     
     public Vehiculo getVehiculo() {
-        return vehiculo;
+        return this.vehiculo;
     }
     
     public void guardarOferta(String nomFile){ 
         try(PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomFile), true))){
-            pw.println(this.comprador.getCorreo()+"|"+this.vendedor.getCorreo()+"|"+this.vehiculo.getModelo()+"|"+this.precioOfertado);
+            pw.println(this.comprador.getCorreo()+"|"+this.vendedor.getCorreo()+"|"+this.vehiculo.getModelo()+"|"+this.vehiculo.getPlaca()+"|"+this.precioOfertado);
         }
         catch(Exception e){ 
             System.out.println(e.getMessage());
         }
     }
     
-    public static ArrayList<Oferta> leerOfertaPorPlaca(String archivo, String placa) {
+    public static ArrayList<Oferta> leerOfertaPorPlaca(String archivo, String placa) throws NoSuchAlgorithmException {
         ArrayList<Oferta> ofertas = new ArrayList<>();
         
         try (Scanner scanner = new Scanner(new File(archivo))) {
@@ -56,43 +57,17 @@ public class Oferta {
                 String linea = scanner.nextLine();
                 String[] tokens = linea.split("\\|");
 
-                String compradorVehiculo = tokens[0];
-                String vendedorVehiculo =  tokens[1];
-                String vehiculoOft = tokens[2];
-                double precioOfertado = Double.parseDouble(tokens[3]);
+                String correoComprador = tokens[0];
+                String correoVendedor =  tokens[1];
+                String modeloVehiculo = tokens[2];
+                String placaVehiculo = tokens[3];
+                double precioOfertado = Double.parseDouble(tokens[4]);
+                Vendedor vend = Vendedor.encontrarVendedor(correoVendedor);
+                Vehiculo veh = Auto.encontrarVehiculo(placaVehiculo);
+                Comprador comp = Comprador.encontrarComprador(correoComprador);
                 
-                
-            
-                
-                Vehiculo vehiculo;
-                                
-                if (vehiculoOft.equals("auto")) {
-                vehiculo = new Auto(0, "", "", "", "", 0, 0, "", "", "", "", 0); 
-                } else if (vehiculoOft.equals("camioneta")) {
-                vehiculo = new Camioneta(0, "", "", "", "", 0,0, "", "", "", "", 0, ""); 
-                } else {
-               
-                System.out.println("Tipo de vehículo no válido en el archivo de ofertas");
-                continue; 
-                }
-                if(vehiculo.getPlaca().equalsIgnoreCase(placa)){
-                Comprador comprador = new Comprador(0, compradorVehiculo, "", "", "", ""); 
-                Vendedor vendedor = new Vendedor(0, vendedorVehiculo, "", "", "", ""); 
-                
-                
-                Oferta ofertitas = new Oferta(comprador, vendedor, vehiculo, precioOfertado);
-            
-                
-                ofertas.add(ofertitas);
-                }
-                
-                
-
-
-
-
-
-
+                Oferta of = new Oferta(comp,vend,veh, precioOfertado);
+                ofertas.add(of);
 
                 }
         } catch (FileNotFoundException e) {
@@ -100,13 +75,7 @@ public class Oferta {
         }
 
         return ofertas;
-        }
-    
-   
-    
-    
-    
-    
+        }   
     
  }
 

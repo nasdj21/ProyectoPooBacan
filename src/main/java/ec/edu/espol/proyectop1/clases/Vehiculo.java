@@ -1,13 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package ec.edu.espol.proyectop1.clases;
 
-/**
- *
- * @author eliez
- */
+
 public abstract class Vehiculo {
     private int id;
     private String placa;
@@ -38,6 +32,11 @@ public abstract class Vehiculo {
         return id;
     }
     
+    public String getTipo(){
+        String g = this.getClass().getName();
+        return g;
+    }
+    
     public Vendedor getDueño(){
         for(Vendedor v : Vendedor.leerVendedor("vendedores.txt")){
             if(v.getId() == this.id)
@@ -46,6 +45,7 @@ public abstract class Vehiculo {
         return null;
            
     }
+    
 
 
     

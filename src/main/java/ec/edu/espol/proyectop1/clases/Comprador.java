@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.espol.proyectop1.clases;
 
 import static ec.edu.espol.proyectop1.clases.Utilitaria.getSHA;
@@ -77,7 +73,7 @@ public class Comprador extends Usuario{
                     crearComprador();
                     break;
                 case 2:
-                    crearOferta(); 
+                    Comprador.encontrarComprador().crearOferta(); 
                    break;
                 case 3:
                     break;
@@ -95,12 +91,37 @@ public class Comprador extends Usuario{
         Usuario.crearUsuario("compradores.txt");
         
     }
-    public void crearOferta(){
-        Oferta oferta = new Oferta(null, null, null, 0);
-        
+    public void crearOferta() throws NoSuchAlgorithmException{
         this.ofertarVehiculo();
         
         
+    }
+    public static Comprador encontrarComprador() throws NoSuchAlgorithmException{
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Comprador>compradores = Comprador.leerComprador("compradores.txt");
+        System.out.println("Ingrese correo");
+        String mail = sc.next();
+        System.out.println("Ingrese clave");
+        String clave = sc.next();
+        for(Comprador c : compradores){
+            if(c.getCorreo().equals(mail) && c.getClave().equals(Utilitaria.toHexString(getSHA(clave)))){
+                return c;
+            }
+            else{
+                System.out.println("Comprador no existente");
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    public static Comprador encontrarComprador(String correo) throws NoSuchAlgorithmException{
+        ArrayList<Comprador>compradores = Comprador.leerComprador("vendedores.txt");
+        for(Comprador c : compradores){
+            if(correo.equals(c.getCorreo()))
+                return c;
+        }
+        return null;
     }
     
     public void ofertar(Vehiculo v){
@@ -109,10 +130,13 @@ public class Comprador extends Usuario{
         double valorOfertado = sc.nextDouble();
         Oferta oferta = new Oferta(this, v.getDueño(), v, valorOfertado);
         oferta.guardarOferta("ofertas.txt");
+        this.ofertas.add(oferta);
     }
     
-    public void ofertarVehiculo(){
+    public void ofertarVehiculo() throws NoSuchAlgorithmException{
         Scanner sc = new Scanner(System.in);
+        
+        
         ArrayList<Vehiculo>lista = filtrarVehiculo();
         for(int i = 0; i < lista.size(); i++){
             int opcion = 0;
@@ -128,7 +152,7 @@ public class Comprador extends Usuario{
                 
                 switch(opcion){
                     case 1:
-                        ofertar(lista.get(i));
+                        Comprador.encontrarComprador().ofertar(lista.get(i));
                         break;
                     case 2:
                         if(i < lista.size()-1)
@@ -137,6 +161,8 @@ public class Comprador extends Usuario{
                     case 3:
                         if(i > 0)
                             i--;
+                        break;
+                    case 4:
                         break;
                     default:
                         System.out.println("Opcion invalida, ingrese una opcion válida");
@@ -184,7 +210,9 @@ public class Comprador extends Usuario{
                
                 for(Auto au : vehiculos) {
                     if(!(au.getTipoVidrios().equals(null)) && Integer.parseInt(r[0]) <= au.getRecorrido() && Integer.parseInt(r[1]) >= au.getRecorrido() && Integer.parseInt(a[0]) <= au.getAnio() && Integer.parseInt(a[1]) >= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio())
-                        fin.add(au);  
+                        fin.add(au); 
+                    else
+                        System.out.println("No se ha encontrado vehiculo con sus especificaciones");
                 }   
             } else if (tipoVehiculo.equalsIgnoreCase("moto")) {
                 
@@ -192,6 +220,9 @@ public class Comprador extends Usuario{
                 
                     if(au.getTipoVidrios().equals(null) && Integer.parseInt(r[0]) <= au.getRecorrido() && Integer.parseInt(r[1]) >= au.getRecorrido() && Integer.parseInt(a[0]) <= au.getAnio() && Integer.parseInt(a[1]) >= au.getAnio() && Double.parseDouble(p[0]) <= au.getPrecio() && Double.parseDouble(p[1]) >= au.getPrecio())
                         fin.add(au);
+                    else
+                        System.out.println("No se ha encontrado vehiculo con sus especificaciones");
+
                 }
                 
             } else if (tipoVehiculo.equalsIgnoreCase("camioneta")) {
@@ -200,6 +231,9 @@ public class Comprador extends Usuario{
                     
                     if(Integer.parseInt(r[0]) <= ca.getRecorrido() && Integer.parseInt(r[1]) >= ca.getRecorrido() && Integer.parseInt(a[0]) <= ca.getAnio() && Integer.parseInt(a[1]) >= ca.getAnio() && Double.parseDouble(p[0]) <= ca.getPrecio() && Double.parseDouble(p[1]) >= ca.getPrecio())
                         fin.add(ca);
+                    else
+                        System.out.println("No se ha encontrado vehiculo con sus especificaciones");
+
                     
                 }
                  
@@ -216,5 +250,6 @@ public class Comprador extends Usuario{
         return fin;
         
             }
+    
     
 }
