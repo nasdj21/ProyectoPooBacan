@@ -45,6 +45,11 @@ public class LoginController implements Initializable {
         String us = usuario.getText();
         String cont = contraseña.getText();
         boolean existe = Usuario.usuarioExiste(us, cont, "usuarios.ser");
+        if (us.isEmpty() || cont.isEmpty()) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese correo y contraseña.");
+            alerta.show();
+            return; // Sale del método si los campos están vacíos
+        }
         if (existe) {
             
             Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Usuario correcto");
