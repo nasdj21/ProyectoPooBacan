@@ -1,5 +1,5 @@
 
-package ec.edu.espol.proyectop1.clases;
+package ec.edu.espol.proyectop1;
 
 
 public abstract class Vehiculo {
@@ -37,10 +37,10 @@ public abstract class Vehiculo {
         return g;
     }
     
-    public Vendedor getDueño(){
-        for(Vendedor v : Vendedor.leerVendedor("vendedores.txt")){
-            if(v.getId() == this.id)
-                return v;
+    public Usuario getDueño(){
+        for(Usuario u : Usuario.readListFromFileSer("usuarios.ser")){
+            if(u.getId() == this.id)
+                return u;
         }
         return null;
            

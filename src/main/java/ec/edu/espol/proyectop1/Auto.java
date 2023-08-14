@@ -1,4 +1,4 @@
-package ec.edu.espol.proyectop1.clases;
+package ec.edu.espol.proyectop1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
