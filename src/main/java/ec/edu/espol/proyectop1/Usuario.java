@@ -1,5 +1,8 @@
 package ec.edu.espol.proyectop1;
 import static ec.edu.espol.proyectop1.Utilitaria.getSHA;
+import ec.edu.espol.proyectop1.excepciones.CorreoExistenteException;
+import ec.edu.espol.proyectop1.excepciones.UsuarioNoExisteException;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -105,7 +108,7 @@ public class Usuario implements Serializable{
     //AVANCE DEL PROYECTO//
     
     public void saveSer(String nomfile){
-        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile))){
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile,true))){
             out.writeObject(this);
         }
         catch(IOException e){
@@ -116,7 +119,7 @@ public class Usuario implements Serializable{
     }
     
     public static void saveListToFileSer(String nombreArchivo, ArrayList<Usuario> usuario) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nombreArchivo))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nombreArchivo,true))) {
             out.writeObject(usuario);
         } catch (IOException e) {
             System.out.println("Error al guardar el archivo: " + e.getMessage());
@@ -135,17 +138,30 @@ public class Usuario implements Serializable{
     
     
     //validar el usuario con el correo electronico
-    public static boolean usuarioExiste(String correo, String clave, String archivoSerializado) {
+    public static Usuario usuarioExiste(String correo, String clave, String archivoSerializado) throws UsuarioNoExisteException {
         ArrayList<Usuario> usuarios = Usuario.readListFromFileSer(archivoSerializado);
         for (Usuario u : usuarios) {
             if (correo.equals(u.getCorreo()) && clave.equals(u.getClave())) {
-                return true; // El usuario existe
+                return u; // El usuario existe
             }
         }
-        return false; // El usuario no existe
+       throw new UsuarioNoExisteException("El usuario con correo " + correo + " y clave proporcionada no existe."); 
     }
     
+    public static boolean correoYaExiste(String correo, ArrayList<Usuario> usuarios) throws CorreoExistenteException {
+        for (Usuario u : usuarios) {
+            if (correo.equals(u.getCorreo())) {
+                throw new CorreoExistenteException("El correo electrónico ya está registrado.");
+            }
+        }
+        return false;
+    }
+
+
+    
     ////////////////////////////////////////////////
+    
+  
     
 
     

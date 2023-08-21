@@ -1,8 +1,13 @@
 package ec.edu.espol.proyectop1;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,7 +15,7 @@ import java.util.Scanner;
  *
  * @author eliez
  */
-public class Auto extends Vehiculo {
+public class Auto extends Vehiculo implements Serializable{
     private String tipoVidrios;
     private String tipoTransmision;
 
@@ -101,15 +106,35 @@ public class Auto extends Vehiculo {
         return autos;
         }
     
-    public static Vehiculo encontrarVehiculo(String placa){
-        ArrayList<Auto> autos = Auto.leerVehiculo("vehiculos.txt");
-        for(Auto a : autos){
-            if(a.getPlaca().equals(placa))
-                return a;
+    //SERIALIZADO
+    public void guardarInfoSer(String nomfile){
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile,true))){
+            out.writeObject(this);
         }
-        return null;
-          
-    }
+        catch(IOException e){
+            
+        }
         
+        
+    }
+    
+    public static void guardarInfoArraySer(String nombreArchivo, ArrayList<Auto> auto) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nombreArchivo,true))) {
+            out.writeObject(auto);
+        } catch (IOException e) {
+            System.out.println("Error al guardar el archivo: " + e.getMessage());
+        }
+    }
     
 }
+
+
+
+
+
+
+
+    
+
+
+    

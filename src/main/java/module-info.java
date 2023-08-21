@@ -6,4 +6,8 @@ module ec.edu.espol.proyectop1 {
 
     opens ec.edu.espol.proyectop1 to javafx.fxml;
     exports ec.edu.espol.proyectop1;
+    opens ec.edu.espol.proyectop1.controllers to javafx.fxml;
+    exports ec.edu.espol.proyectop1.controllers;
+    opens ec.edu.espol.proyectop1.excepciones to javafx.fxml;
+    exports ec.edu.espol.proyectop1.excepciones;
 }

@@ -1,6 +1,12 @@
 
 package ec.edu.espol.proyectop1;
 
+import ec.edu.espol.proyectop1.excepciones.placaExisteException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
 
 public abstract class Vehiculo {
     private int id;
@@ -87,8 +93,32 @@ public abstract class Vehiculo {
 
     public abstract void mostrarInformacion();
 
-    public abstract void guardarInformacion(); 
+   public abstract void guardarInformacion(); 
     
+    
+    public abstract void guardarInfoSer(String nomfile);
+    
+    public static ArrayList<Vehiculo> leerInfoSer(String nombreArchivo) {
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(nombreArchivo))) {
+            vehiculos = (ArrayList<Vehiculo>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
+        return vehiculos;
+    }
+    public static boolean validarPlacaExistente(String placa, String archivo) throws placaExisteException{
+    ArrayList<Vehiculo> vehiculos = Vehiculo.leerInfoSer(archivo);
+
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getPlaca().equals(placa)) {
+                throw new placaExisteException("El vehiculo la está registrado");
+            }
+        }
+
+        return false; 
+    }
+
     
    
 }

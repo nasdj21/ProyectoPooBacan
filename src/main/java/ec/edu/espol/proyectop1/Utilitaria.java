@@ -26,10 +26,11 @@ public class Utilitaria {
         int id = 0;
         try(Scanner sc = new Scanner(new File(nomfile))){
             while(sc.hasNextLine()){
-                String linea = sc.next();
+                String linea = sc.nextLine();
                 String[] tokens = linea.split("\\|");
                 id = Integer.parseInt(tokens[0]);
             }
+
                 
             
         }
