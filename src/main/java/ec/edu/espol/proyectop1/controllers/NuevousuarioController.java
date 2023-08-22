@@ -57,11 +57,11 @@ public class NuevousuarioController implements Initializable {
         String nombres = nombre.getText();
         String apellidos = apellido.getText();
         String organizacions = organizacion.getText();
-        String correo = this.correo.getText();
-        String clave = this.clave.getText();
+        String corre = correo.getText();
+        String clav = clave.getText();
 
         try {
-            if (correo.isEmpty() || clave.isEmpty()) {
+            if (corre.isEmpty() || clav.isEmpty()) {
                 Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, complete todos los campos.");
                 alerta.show();
                 return;
@@ -69,15 +69,14 @@ public class NuevousuarioController implements Initializable {
 
             // Verifica si el correo ya existe en la lista de usuarios
             ArrayList<Usuario> usuarios = Usuario.readListFromFileSer("usuarios.ser");
-            Usuario.correoYaExiste(correo, usuarios);
+            Usuario.correoYaExiste(corre, usuarios);
 
             // Genera el ID para el nuevo usuario
             int nuevoID = Utilitaria.nextID("usuarios.ser");
 
             // Crea un nuevo usuario y guárdalo
-            Usuario nuevoUsuario = new Usuario(nuevoID, nombres, apellidos, organizacions, correo, clave);
-            usuarios.add(nuevoUsuario);
-            Usuario.saveListToFileSer("usuarios.ser", usuarios);
+            Usuario nuevoUsuario = new Usuario(nuevoID, nombres, apellidos, organizacions, corre, clav);
+            nuevoUsuario.saveSer("usuarios.ser");
 
             // Muestra un mensaje de éxito
             Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Usuario registrado correctamente.");

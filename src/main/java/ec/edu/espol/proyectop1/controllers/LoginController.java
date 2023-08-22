@@ -42,7 +42,10 @@ public class LoginController implements Initializable {
     private Button ingresar;
     @FXML
     private Hyperlink registrar;
+    
     private Usuario usuarioEncontrado;
+    
+
     
 
     /**
@@ -94,6 +97,8 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+    
 
 
 

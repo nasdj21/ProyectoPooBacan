@@ -31,6 +31,7 @@ public class InicioController implements Initializable {
     private Button nuevoCarro;
     @FXML
     private Button verCarros;
+    
     private Usuario usuario;
     @FXML
     private Button regresar;
@@ -49,11 +50,6 @@ public class InicioController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/creacion.fxml"));
         Parent root = loader.load();
 
-        // Obtén una referencia al controlador de creación
-        CreacionController creacionController = loader.getController();
-
-        // Pasa el usuario al controlador de creación
-        creacionController.setUsuarioCreacion(usuario);
 
         Scene scene = new Scene(root);
         Stage stage = (Stage) nuevoCarro.getScene().getWindow(); // nuevoCarro es el botón que desencadenó el evento
@@ -69,6 +65,12 @@ public class InicioController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/misCarros.fxml"));
             Parent root = loader.load();
+            
+            // Obtén una referencia al controlador de mis vehiculos
+            MisCarrosController carrosController = loader.getController();
+
+            // Pasa el usuario al controlador de creación
+            carrosController.setUsuarioMisCarros(usuario);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) verCarros.getScene().getWindow(); 

@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.proyectop1.controllers;
 
+import ec.edu.espol.proyectop1.Usuario;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,7 +40,13 @@ public class MisCarrosController implements Initializable {
     private Button borrar;
     @FXML
     private TextField tipo;
+        
+    private Usuario usuario;
 
+    public void setUsuarioMisCarros(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     /**
      * Initializes the controller class.
      */
@@ -47,15 +54,30 @@ public class MisCarrosController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+    
 
     @FXML
     private void buscarVehiculo(MouseEvent event) {
-        String recorridos = recorrido.getText();
-        String año = ano.getText();
-        String precios = precio.getText();
-        String tipoVehiculo = tipo.getText();
-        
+//        String recorridos = recorrido.getText();
+//        String año = ano.getText();
+//        String precios = precio.getText();
+//        String tipoVehiculo = tipo.getText();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
+            Parent root = loader.load();
+            
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) buscar.getScene().getWindow(); 
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+        
+    
 
     @FXML
     private void borrar(MouseEvent event) {

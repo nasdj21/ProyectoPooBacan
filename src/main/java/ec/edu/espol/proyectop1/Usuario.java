@@ -83,54 +83,43 @@ public class Usuario implements Serializable{
     public void setClave(String clave) {
         this.clave = clave;
     }
+
+    public ArrayList<Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+
+    public void setVehiculos(ArrayList<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
     
-    public void saveFile(String nomFile){ //Para escribir y crear un archivo
-        try(PrintWriter pw = new PrintWriter(new FileOutputStream(new File(nomFile), true))){
-            pw.println(this.id+"|"+this.nombres+"|"+this.apellidos+"|"+this.organizacion+"|"+this.correo+"|"+this.clave);
-        }
-        catch(Exception e){ //lo que deberia hacer en el caso de que el archivo no existe
-            System.out.println(e.getMessage());
-        }
-    }
-    public static void saveListToFile(String nombreArchivo, ArrayList<Usuario> usuarios) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
-            for (Usuario usuario : usuarios) {
-                writer.write(usuario.getId() +"|" + usuario.getNombres()+"|"+usuario.getApellidos()+"|" + usuario.getOrganizacion()+"|" + usuario.getCorreo()+"|" + usuario.getClave());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Error al guardar el archivo: " + e.getMessage());
-        }
-    }
+    
+    
+   
     
     
     
     //AVANCE DEL PROYECTO//
     
     public void saveSer(String nomfile){
-        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile,true))){
-            out.writeObject(this);
+        ArrayList<Usuario>usuarios = Usuario.readListFromFileSer(nomfile);
+        usuarios.add(this);
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile))){
+            out.writeObject(usuarios);
         }
         catch(IOException e){
+            System.out.println("Error al guardar el archivo de usuario: " + e.getMessage());
             
         }
         
         
     }
     
-    public static void saveListToFileSer(String nombreArchivo, ArrayList<Usuario> usuario) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nombreArchivo,true))) {
-            out.writeObject(usuario);
-        } catch (IOException e) {
-            System.out.println("Error al guardar el archivo: " + e.getMessage());
-        }
-    }
     public static ArrayList<Usuario> readListFromFileSer(String nombreArchivo) {
         ArrayList<Usuario> usuario = new ArrayList<>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(nombreArchivo))) {
             usuario = (ArrayList<Usuario>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
+            System.out.println("Error al leer el archivo de usuario: " + e.getMessage());
         }
         return usuario;
     }
