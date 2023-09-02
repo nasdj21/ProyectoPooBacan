@@ -15,9 +15,9 @@
    <center>
       <AnchorPane maxHeight="381.0" maxWidth="551.0" prefHeight="381.0" prefWidth="551.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="bienvenido" alignment="TOP_LEFT" layoutX="361.0" layoutY="14.0" prefHeight="17.0" prefWidth="176.0" text="Bienvenido" textFill="#fffdfd">
+            <Label fx:id="bienvenido" alignment="TOP_LEFT" layoutX="361.0" layoutY="14.0" prefHeight="17.0" prefWidth="176.0" text="Bienvenido" textFill="#fffdfd" translateX="-140.0">
                <font>
-                  <Font name="System Italic" size="12.0" />
+                  <Font name="System Italic" size="18.0" />
                </font>
             </Label>
             <GridPane layoutX="26.0" layoutY="105.0" prefHeight="215.0" prefWidth="500.0">
@@ -50,6 +50,12 @@
                   <Font size="9.0" />
                </font>
             </Button>
+            <Button layoutX="483.0" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#verPerfil" text="Perfil" />
+            <ImageView fitHeight="25.0" fitWidth="31.0" layoutX="457.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../perfil.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </center>

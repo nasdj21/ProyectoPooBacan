@@ -71,11 +71,13 @@ public class NuevousuarioController implements Initializable {
             ArrayList<Usuario> usuarios = Usuario.readListFromFileSer("usuarios.ser");
             Usuario.correoYaExiste(corre, usuarios);
 
-            // Genera el ID para el nuevo usuario
-            int nuevoID = Utilitaria.nextID("usuarios.ser");
+            
+            
 
             // Crea un nuevo usuario y guárdalo
-            Usuario nuevoUsuario = new Usuario(nuevoID, nombres, apellidos, organizacions, corre, clav);
+//            ArrayList<Usuario> usuarioGuardado = new ArrayList<>();
+           Usuario nuevoUsuario = new Usuario( nombres, apellidos, organizacions, corre, clav);
+//            usuarioGuardado.add(nuevoUsuario);
             nuevoUsuario.saveSer("usuarios.ser");
 
             // Muestra un mensaje de éxito

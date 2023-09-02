@@ -1,0 +1,8 @@
+# config.properties
+
+correo.remitente=eliezeracebo@gmail.com
+correo.clave=cuwlxtypzzjzdnbs
+correo.smtp.host=smtp.gmail.com
+correo.smtp.port=587
+correo.smtp.auth=true
+correo.smtp.starttls.enable=true

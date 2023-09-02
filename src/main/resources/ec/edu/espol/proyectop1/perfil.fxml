@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectop1.controllers.PerfilController">
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PERFIL DE USUARIO" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+   </top>
+   <center>
+      <GridPane prefHeight="300.0" prefWidth="303.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="9.0" prefWidth="29.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="274.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="125.0" minHeight="0.0" prefHeight="46.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="149.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="144.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="254.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="165.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombres: " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Organización:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Correo:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Clave:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Hyperlink fx:id="cambiarContra" onMouseClicked="#cambiarContraseña" text="Cambiar contraseña" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <Text fx:id="nombre" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Text fx:id="apellidos" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <Text fx:id="organizacion" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Text fx:id="correo" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            <Text fx:id="clave" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+         </children>
+      </GridPane>
+   </center>
+   <left>
+      <ImageView fx:id="imgV" fitHeight="292.0" fitWidth="328.0" onMouseClicked="#seleccionarImagen" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@../../../../perfil.png" />
+         </image></ImageView>
+   </left>
+   <bottom>
+      <Button fx:id="regresar" mnemonicParsing="false" onMouseClicked="#volverInicio" text="&lt;&lt;Regresar" translateX="10.0" translateY="-10.0" BorderPane.alignment="BOTTOM_LEFT" />
+   </bottom>
+</BorderPane>

@@ -29,8 +29,8 @@ public class Usuario implements Serializable{
     protected ArrayList<Vehiculo>vehiculos;
 
     
-    public Usuario(int id, String nombres, String apellidos, String organizacion, String correo, String clave){
-        this.id = id;
+    public Usuario( String nombres, String apellidos, String organizacion, String correo, String clave){
+        
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.organizacion = organizacion;
@@ -39,9 +39,7 @@ public class Usuario implements Serializable{
         vehiculos = new ArrayList<>();
     }
     
-    public int getId() {
-        return id;
-    }
+    
     
 
     public String getNombres() {
@@ -105,6 +103,20 @@ public class Usuario implements Serializable{
         usuarios.add(this);
         try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile))){
             out.writeObject(usuarios);
+        }
+        catch(IOException e){
+            System.out.println("Error al guardar el archivo de usuario: " + e.getMessage());
+            
+        }
+        
+        
+    }
+    
+    public void saveSerList(String nomfile,ArrayList<Usuario> usuario){
+//        ArrayList<Usuario>usuarios = Usuario.readListFromFileSer(nomfile);
+//        usuarios.add(this);
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile))){
+            out.writeObject(usuario);
         }
         catch(IOException e){
             System.out.println("Error al guardar el archivo de usuario: " + e.getMessage());

@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -35,13 +37,15 @@ public class InicioController implements Initializable {
     private Usuario usuario;
     @FXML
     private Button regresar;
-
+    private ImageView imagenDePerfil;
+    private Image imagenPerfil;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
     }    
 
     @FXML
@@ -92,6 +96,27 @@ public class InicioController implements Initializable {
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) regresar.getScene().getWindow(); 
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void verPerfil(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/perfil.fxml"));
+            Parent root = loader.load();
+            
+            // Obtén una referencia al controlador de mis vehiculos
+            PerfilController perfilController = loader.getController();
+
+            // Pasa el usuario al controlador de creación
+            perfilController.setUsuarioPerfil(usuario);
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) verCarros.getScene().getWindow(); 
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

@@ -72,7 +72,6 @@ public class LoginController implements Initializable {
         
         abrirEscenaInicio(usuarioEncontrado);
         
-        // Aquí puedes usar "usuarioEncontrado" si necesitas hacer algo con él.
     } catch (UsuarioNoExisteException e) {
         Alert alerta = new Alert(Alert.AlertType.ERROR, e.getMessage());
         alerta.show();
