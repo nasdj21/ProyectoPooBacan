@@ -9,13 +9,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectop1.controllers.CambiarClaveController">
    <bottom>
-      <Button mnemonicParsing="false" text="&lt;&lt;Regresar" translateX="10.0" translateY="-10.0" BorderPane.alignment="BOTTOM_LEFT" />
+      <Button mnemonicParsing="false" onMouseClicked="#regresarPerfil" text="&lt;&lt;Regresar" translateX="10.0" translateY="-10.0" BorderPane.alignment="BOTTOM_LEFT" />
    </bottom>
    <center>
-      <GridPane fx:id="regresar" onMouseClicked="#regresarPerfil" BorderPane.alignment="CENTER">
+      <GridPane fx:id="regresar" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="402.0" minWidth="10.0" prefWidth="91.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="404.0" minWidth="10.0" prefWidth="404.0" />

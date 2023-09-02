@@ -34,11 +34,17 @@ public class InicioController implements Initializable {
     @FXML
     private Button verCarros;
     
-    private Usuario usuario;
+    private Usuario usuarioInicio;
     @FXML
     private Button regresar;
     private ImageView imagenDePerfil;
     private Image imagenPerfil;
+    public void setUsuario(Usuario usuario) {
+        this.usuarioInicio = usuario;
+        System.out.println("Usuario recibido: " + usuarioInicio.getNombres()); // Agrega esta línea
+
+    }
+        
     /**
      * Initializes the controller class.
      */
@@ -74,7 +80,7 @@ public class InicioController implements Initializable {
             MisCarrosController carrosController = loader.getController();
 
             // Pasa el usuario al controlador de creación
-            carrosController.setUsuarioMisCarros(usuario);
+            carrosController.setUsuarioMisCarros(usuarioInicio);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) verCarros.getScene().getWindow(); 
@@ -84,10 +90,7 @@ public class InicioController implements Initializable {
             e.printStackTrace();
         }
     }
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
+    
     @FXML
     private void regresarIn(MouseEvent event) {
         try {
@@ -113,7 +116,7 @@ public class InicioController implements Initializable {
             PerfilController perfilController = loader.getController();
 
             // Pasa el usuario al controlador de creación
-            perfilController.setUsuarioPerfil(usuario);
+            perfilController.setUsuarioPerfil(usuarioInicio);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) verCarros.getScene().getWindow(); 

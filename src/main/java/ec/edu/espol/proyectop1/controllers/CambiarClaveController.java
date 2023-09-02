@@ -38,10 +38,10 @@ public class CambiarClaveController implements Initializable {
     @FXML
     private Button guardar;
     
-    private Usuario usuario;
+    private Usuario usuarioClave;
     
-    public void setUsuarioPerfil(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioPerfilClave(Usuario usuario) {
+        this.usuarioClave = usuario;
     }
 
     /**
@@ -59,7 +59,7 @@ public class CambiarClaveController implements Initializable {
         String confirmarContraseña = claveConf.getText();
 
         
-        if (!contraseñaActual.equals(usuario.getClave())) {
+        if (!contraseñaActual.equals(usuarioClave.getClave())) {
             mostrarAlerta("Contraseña actual incorrecta.");
             return;
         }
@@ -71,13 +71,14 @@ public class CambiarClaveController implements Initializable {
         }
 
         
-        usuario.setClave(nuevaContraseña);
+        usuarioClave.setClave(nuevaContraseña);
 
         
-        usuario.saveSer("usuarios.ser");
+        usuarioClave.saveSer("usuarios.ser");
+        Usuario.actualizarUsuario(usuarioClave, "usuarios.ser");
 
         
-        mostrarAlerta2("La contraseña se ha cambiado correctamente.");
+        mostrarAlerta2("La contraseña se ha cambiado correctamente. POR FAVOR INICIE SESION NUEVAMENTE");
 
         
     }
@@ -97,8 +98,10 @@ public class CambiarClaveController implements Initializable {
     @FXML
     private void regresarPerfil(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/perfil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/login.fxml"));
             Parent root = loader.load();
+            
+            
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) regresar.getScene().getWindow(); 

@@ -43,8 +43,8 @@ public class MisCarrosController implements Initializable {
         
     private Usuario usuario;
 
-    public void setUsuarioMisCarros(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioMisCarros(Usuario usuarioInicio) {
+        this.usuario = usuarioInicio;
     }
     
     /**

@@ -16,17 +16,22 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 
 
 public class Usuario implements Serializable{
-    protected int id;
+    
     protected String nombres;
     protected String apellidos;
     protected String organizacion;
     protected String correo;
     protected String clave;
     protected ArrayList<Vehiculo>vehiculos;
+    
+ 
+
 
     
     public Usuario( String nombres, String apellidos, String organizacion, String correo, String clave){
@@ -37,9 +42,9 @@ public class Usuario implements Serializable{
         this.correo = correo;
         this.clave = clave;
         vehiculos = new ArrayList<>();
+        
     }
-    
-    
+
     
 
     public String getNombres() {
@@ -91,7 +96,6 @@ public class Usuario implements Serializable{
     }
     
     
-    
    
     
     
@@ -101,18 +105,19 @@ public class Usuario implements Serializable{
     public void saveSer(String nomfile){
         ArrayList<Usuario>usuarios = Usuario.readListFromFileSer(nomfile);
         usuarios.add(this);
-        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile))){
-            out.writeObject(usuarios);
-        }
-        catch(IOException e){
-            System.out.println("Error al guardar el archivo de usuario: " + e.getMessage());
-            
-        }
+        Usuario.saveSerList(nomfile, usuarios); 
+//        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile))){
+//            out.writeObject(usuarios);
+//        }
+//        catch(IOException e){
+//            System.out.println("Error al guardar el archivo de usuario: " + e.getMessage());
+//            
+//        }
         
         
     }
     
-    public void saveSerList(String nomfile,ArrayList<Usuario> usuario){
+    public static void saveSerList(String nomfile,ArrayList<Usuario> usuario){
 //        ArrayList<Usuario>usuarios = Usuario.readListFromFileSer(nomfile);
 //        usuarios.add(this);
         try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile))){
@@ -157,6 +162,33 @@ public class Usuario implements Serializable{
         }
         return false;
     }
+    
+    public static void actualizarUsuario(Usuario usuarioActualizado, String archivoUsuarios) {
+        ArrayList<Usuario> usuarios = Usuario.readListFromFileSer("usuarios.ser");
+
+        // Busca el usuario existente por su correo electrónico
+        boolean encontrado = false;
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario usuario = usuarios.get(i);
+            if (usuario.getCorreo().equals(usuarioActualizado.getCorreo())) {
+                // Encuentra el usuario a actualizar por su correo electrónico
+                usuario.setClave(usuarioActualizado.getClave());
+                
+
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            // El usuario no se encontró en la lista, muestra un mensaje de error o maneja la situación adecuadamente.
+        } else {
+            // Sobrescribe todos los usuarios en el archivo
+            Usuario.saveSerList("usuarios.ser", usuarios);
+        }
+    }
+
+
 
 
     
