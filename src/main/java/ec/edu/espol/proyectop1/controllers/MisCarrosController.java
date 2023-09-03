@@ -5,8 +5,10 @@
 package ec.edu.espol.proyectop1.controllers;
 
 import ec.edu.espol.proyectop1.Usuario;
+import ec.edu.espol.proyectop1.Vehiculo;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,10 +43,11 @@ public class MisCarrosController implements Initializable {
     @FXML
     private TextField tipo;
         
-    private Usuario usuario;
+    private Usuario usuarioC;
 
-    public void setUsuarioMisCarros(Usuario usuarioInicio) {
-        this.usuario = usuarioInicio;
+    public void setUsuarioMisCarros(Usuario usuario) {
+        this.usuarioC = usuario;
+        System.out.println("Usuario recibido: " + usuarioC.getNombres()); // Agrega esta línea
     }
     
     /**
@@ -59,13 +62,32 @@ public class MisCarrosController implements Initializable {
 
     @FXML
     private void buscarVehiculo(MouseEvent event) {
-//        String recorridos = recorrido.getText();
-//        String año = ano.getText();
-//        String precios = precio.getText();
-//        String tipoVehiculo = tipo.getText();
+        
+            
         try {
+            String[] recorridos = recorrido.getText().split("-");
+            String[] año = ano.getText().split("-");
+            String[] precios = precio.getText().split("-");
+            String tipoVehiculo = tipo.getText();
+            ArrayList<Vehiculo>vehiculos = new ArrayList<>();
+
+            if(recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty() && tipoVehiculo.isEmpty())
+                vehiculos = Vehiculo.leerInfoSer("vehiculos.ser");
+            else{
+                ArrayList<Vehiculo>temporal = Vehiculo.leerInfoSer("vehiculos.ser");
+                for(Vehiculo v : temporal){
+                    if(v.getRecorrido() > Double.parseDouble(recorridos[0]) && v.getRecorrido() < Double.parseDouble(recorridos[1]) && v.getAnio() > Integer.parseInt(año[0]) && v.getAnio() < Integer.parseInt(año[1]) && v.getPrecio() > Double.parseDouble(precios[0]) && v.getPrecio() < Double.parseDouble(precios[1]) && v.getTipo().equals(tipoVehiculo))
+                        vehiculos.add(v);
+                }
+
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
             Parent root = loader.load();
+            
+            CarrosEncontradosController cencontradorController = loader.getController();
+            cencontradorController.mostrar(vehiculos);
+            cencontradorController.setUsuario(usuarioC);
+            
             
 
             Scene scene = new Scene(root);
@@ -92,6 +114,11 @@ public class MisCarrosController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/inicio.fxml"));
             Parent root = loader.load();
+            
+            InicioController devolverUsuario = loader.getController();
+
+            // Pasa el usuario al controlador de cambio de clave
+            devolverUsuario.setUsuario(usuarioC);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) regresar.getScene().getWindow(); 

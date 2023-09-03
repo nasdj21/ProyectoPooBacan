@@ -59,6 +59,9 @@ public class InicioController implements Initializable {
         try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/creacion.fxml"));
         Parent root = loader.load();
+        
+        CreacionController creacionControler  = loader.getController();
+        creacionControler.setUsuario(usuarioInicio);
 
 
         Scene scene = new Scene(root);

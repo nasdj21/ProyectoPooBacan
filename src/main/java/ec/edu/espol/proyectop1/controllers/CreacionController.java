@@ -62,13 +62,18 @@ public class CreacionController implements Initializable {
     @FXML
     private Button limpiar;
     
-    private Usuario usuario;
+    private Usuario usuarioC;
     @FXML
     private TextField TipoVidrios;
     @FXML
     private TextField tipoTransmision;
     @FXML
     private TextField tipoTraccion;
+    
+    public void setUsuario(Usuario usuario){
+        this.usuarioC = usuario;
+        System.out.println("Usuario recibido: " + usuarioC.getNombres()); // Agrega esta línea
+    }
     
    
     
@@ -114,6 +119,9 @@ public class CreacionController implements Initializable {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/inicio.fxml"));
                 Parent root = loader.load();
+                
+                InicioController inicioController = loader.getController();
+                inicioController.setUsuario(usuarioC);
 
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) regresar.getScene().getWindow(); // regresar es el botón que desencadenó el evento
@@ -163,6 +171,7 @@ public class CreacionController implements Initializable {
                     //Si es moto, crea un objeto moto
                     Vehiculo v = new Vehiculo(pl,marc,model,motor,ano,reco,col,combust,price);
                     v.guardarInfoSer("vehiculos.ser");
+                    usuarioC.getVehiculos().add(v);
                     
 
                     Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Auto registrado correctamente.");
@@ -179,6 +188,7 @@ public class CreacionController implements Initializable {
                     // Si es Auto, crea un objeto Auto
                     Auto auto = new Auto(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision, price);
                     auto.guardarInfoSer("vehiculos.ser");
+                    usuarioC.getVehiculos().add(auto);
                     
 
                     Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Auto registrado correctamente.");
@@ -197,6 +207,7 @@ public class CreacionController implements Initializable {
                         // Si se proporciona la capacidad, crea un objeto Camioneta
                         Camioneta camioneta = new Camioneta(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision,price,traccion);
                         camioneta.guardarInfoSer("vehiculos.ser");
+                        usuarioC.getVehiculos().add(camioneta);
                         
 
                         Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Camioneta registrada correctamente.");

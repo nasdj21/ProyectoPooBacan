@@ -32,7 +32,7 @@
               </rowConstraints>
                <children>
                   <Button fx:id="nuevoCarro" mnemonicParsing="false" onMouseClicked="#nuevoVehiculo" text="Registrar nuevo vehiculo" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <Button fx:id="verCarros" mnemonicParsing="false" onMouseClicked="#verVehiculos" text="Ver vehiculos registrados" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Button fx:id="verCarros" mnemonicParsing="false" onMouseClicked="#verVehiculos" text="Vehiculos para ofertar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                      <image>
                         <Image url="@../../../../llaves.jpg" />
