@@ -9,9 +9,12 @@ import ec.edu.espol.proyectop1.Camioneta;
 import ec.edu.espol.proyectop1.Usuario;
 import ec.edu.espol.proyectop1.Vehiculo;
 import ec.edu.espol.proyectop1.excepciones.placaExisteException;
+import java.io.File;
 import java.io.IOException;
 
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 import java.util.ResourceBundle;
@@ -25,7 +28,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -69,6 +75,11 @@ public class CreacionController implements Initializable {
     private TextField tipoTransmision;
     @FXML
     private TextField tipoTraccion;
+    @FXML
+    private Button bt;
+    @FXML
+    private ImageView imagen;
+    private File imgFile;
     
     public void setUsuario(Usuario usuario){
         this.usuarioC = usuario;
@@ -139,96 +150,188 @@ public class CreacionController implements Initializable {
     
 
     @FXML
-    private void registratVehiculo(MouseEvent event) {
+//    private void registratVehiculo(MouseEvent event) throws IOException {
+//        String pl = placa.getText();
+//        String marc = marca.getText();
+//        String model = modelo.getText();
+//        String motor = tipoMotor.getText();
+//        int ano = Integer.parseInt(año.getText());
+//        int reco = Integer.parseInt(recorrido.getText());
+//        String col = color.getText();
+//        String combust = combustible.getText();
+//        double price = Double.parseDouble(precio.getText());
+//        String vidrio = TipoVidrios.getText();
+//        String transmision = tipoTransmision.getText();
+//
+//        String seleccion = tipo.getValue();
+//        if (imgFile == null || pl.isEmpty() || marc.isEmpty() || model.isEmpty() || motor.isEmpty() || col.isEmpty() || combust.isEmpty()) {
+//        Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, llene todos los campos requeridos.");
+//        alerta.show();
+//        return;
+//    }
+//        try{
+//
+//            if(Vehiculo.validarPlacaExistente(pl, "vehiculos.ser")){
+//                throw new placaExisteException("El vehiculo ya está registrado");
+//            }
+//            else{
+//            
+//                if("Moto".equals(seleccion)){
+//                    if (pl.isEmpty() || marc.isEmpty() || model.isEmpty() || motor.isEmpty() || col.isEmpty() || combust.isEmpty()) {
+//                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, llene todos los campos requeridos.");
+//                        alerta.show();
+//                        return;
+//                    }
+//
+//
+//                    //Si es moto, crea un objeto moto
+//                    Vehiculo v = new Vehiculo(pl,marc,model,motor,ano,reco,col,combust,price);
+//                    v.guardarInfoSer("vehiculos.ser");
+//                    usuarioC.getVehiculos().add(v);
+//                    guardarImagen(imgFile, pl);
+//
+//                    Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Auto registrado correctamente.");
+//                    alerta.show();
+//                }
+//
+//
+//                else if ("Auto".equals(seleccion)) {
+//                    if (pl.isEmpty() || marc.isEmpty() || model.isEmpty() || motor.isEmpty() || col.isEmpty() || combust.isEmpty() || vidrio.isEmpty() || transmision.isEmpty()) {
+//                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, llene todos los campos requeridos.");
+//                        alerta.show();
+//                        return;
+//                    }
+//                    // Si es Auto, crea un objeto Auto
+//                    Auto auto = new Auto(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision, price);
+//                    auto.guardarInfoSer("vehiculos.ser");
+//                    usuarioC.getVehiculos().add(auto);
+//                    guardarImagen(imgFile, pl);
+//                    
+//
+//                    Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Auto registrado correctamente.");
+//                    alerta.show();
+//
+//                } else if ("Camioneta".equals(seleccion)) {
+//                    // Si es Camioneta, verifica y procesa el parámetro "capacidad"
+//                    String traccion = tipoTraccion.getText();
+//                    if (pl.isEmpty() || marc.isEmpty() || model.isEmpty() || motor.isEmpty() || col.isEmpty() || combust.isEmpty() || vidrio.isEmpty() || transmision.isEmpty() || traccion.isEmpty()) {
+//                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, llene todos los campos requeridos.");
+//                        alerta.show();
+//                        return;
+//                    }
+//
+//                    if (!traccion.isEmpty()) {
+//                        // Si se proporciona la capacidad, crea un objeto Camioneta
+//                        Camioneta camioneta = new Camioneta(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision,price,traccion);
+//                        camioneta.guardarInfoSer("vehiculos.ser");
+//                        usuarioC.getVehiculos().add(camioneta);
+//                        guardarImagen(imgFile, pl);
+//                        
+//
+//                        Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Camioneta registrada correctamente.");
+//                        alerta.show();
+//                    } else {
+//
+//                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese Traccion");
+//                        alerta.show();
+//                    }
+//                } else {
+//                    // Si no se selecciona ninguna opción, muestra un mensaje de error
+//                    Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, seleccione un tipo de vehículo.");
+//                    alerta.show();
+//                }
+//          }
+//        }catch(placaExisteException e){
+//            Alert alerta = new Alert(Alert.AlertType.ERROR, e.getMessage());
+//            alerta.show();
+//            
+//        }
+//    }
+    private void registratVehiculo(MouseEvent event) throws IOException {
         String pl = placa.getText();
         String marc = marca.getText();
         String model = modelo.getText();
         String motor = tipoMotor.getText();
-        int ano = Integer.parseInt(año.getText());
-        int reco = Integer.parseInt(recorrido.getText());
+        String anoStr = año.getText();
+        String recoStr = recorrido.getText();
         String col = color.getText();
         String combust = combustible.getText();
-        double price = Double.parseDouble(precio.getText());
+        String priceStr = precio.getText();
         String vidrio = TipoVidrios.getText();
         String transmision = tipoTransmision.getText();
 
         String seleccion = tipo.getValue();
-        try{
 
-            if(Vehiculo.validarPlacaExistente(pl, "vehiculos.ser")){
+        if (imgFile == null || pl.isEmpty() || marc.isEmpty() || model.isEmpty() || motor.isEmpty() || col.isEmpty() || combust.isEmpty() || anoStr.isEmpty() || recoStr.isEmpty() || priceStr.isEmpty()) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, llene todos los campos requeridos.");
+            alerta.show();
+            return;
+        }
+
+        try {
+            int ano = Integer.parseInt(anoStr);
+            int reco = Integer.parseInt(recoStr);
+            double price = Double.parseDouble(priceStr);
+
+            if (Vehiculo.validarPlacaExistente(pl, "vehiculos.ser")) {
                 throw new placaExisteException("El vehiculo ya está registrado");
-            }
-            else{
-            
-                if("Moto".equals(seleccion)){
-                    if (pl.isEmpty() || marc.isEmpty() || model.isEmpty() || motor.isEmpty() || col.isEmpty() || combust.isEmpty()) {
-                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, llene todos los campos requeridos.");
-                        alerta.show();
-                        return;
-                    }
-
-
+            } else {
+                if ("Moto".equals(seleccion)) {
                     //Si es moto, crea un objeto moto
-                    Vehiculo v = new Vehiculo(pl,marc,model,motor,ano,reco,col,combust,price);
+                    Vehiculo v = new Vehiculo(pl, marc, model, motor, ano, reco, col, combust, price);
                     v.guardarInfoSer("vehiculos.ser");
                     usuarioC.getVehiculos().add(v);
-                    
+                    guardarImagen(imgFile, pl);
 
                     Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Auto registrado correctamente.");
                     alerta.show();
-                }
-
-
-                else if ("Auto".equals(seleccion)) {
-                    if (pl.isEmpty() || marc.isEmpty() || model.isEmpty() || motor.isEmpty() || col.isEmpty() || combust.isEmpty() || vidrio.isEmpty() || transmision.isEmpty()) {
+                } else if ("Auto".equals(seleccion)) {
+                    // Si es Auto, crea un objeto Auto
+                    if (vidrio.isEmpty() || transmision.isEmpty()) {
                         Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, llene todos los campos requeridos.");
                         alerta.show();
                         return;
                     }
-                    // Si es Auto, crea un objeto Auto
+
                     Auto auto = new Auto(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision, price);
                     auto.guardarInfoSer("vehiculos.ser");
                     usuarioC.getVehiculos().add(auto);
-                    
+                    guardarImagen(imgFile, pl);
 
                     Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Auto registrado correctamente.");
                     alerta.show();
-
                 } else if ("Camioneta".equals(seleccion)) {
                     // Si es Camioneta, verifica y procesa el parámetro "capacidad"
                     String traccion = tipoTraccion.getText();
-                    if (pl.isEmpty() || marc.isEmpty() || model.isEmpty() || motor.isEmpty() || col.isEmpty() || combust.isEmpty() || vidrio.isEmpty() || transmision.isEmpty() || traccion.isEmpty()) {
+                    if (vidrio.isEmpty() || transmision.isEmpty() || traccion.isEmpty()) {
                         Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, llene todos los campos requeridos.");
                         alerta.show();
                         return;
                     }
 
-                    if (!traccion.isEmpty()) {
-                        // Si se proporciona la capacidad, crea un objeto Camioneta
-                        Camioneta camioneta = new Camioneta(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision,price,traccion);
-                        camioneta.guardarInfoSer("vehiculos.ser");
-                        usuarioC.getVehiculos().add(camioneta);
-                        
+                    // Si se proporciona la capacidad, crea un objeto Camioneta
+                    Camioneta camioneta = new Camioneta(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision, price, traccion);
+                    camioneta.guardarInfoSer("vehiculos.ser");
+                    usuarioC.getVehiculos().add(camioneta);
+                    guardarImagen(imgFile, pl);
 
-                        Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Camioneta registrada correctamente.");
-                        alerta.show();
-                    } else {
-
-                        Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese Traccion");
-                        alerta.show();
-                    }
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Camioneta registrada correctamente.");
+                    alerta.show();
                 } else {
                     // Si no se selecciona ninguna opción, muestra un mensaje de error
                     Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, seleccione un tipo de vehículo.");
                     alerta.show();
                 }
-          }
-        }catch(placaExisteException e){
+            }
+        } catch (NumberFormatException e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Año, recorrido y precio deben ser valores numéricos válidos.");
+            alerta.show();
+        } catch (placaExisteException e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alerta.show();
-            
         }
     }
+
 
     @FXML
     private void limpiar(MouseEvent event) {
@@ -244,11 +347,44 @@ public class CreacionController implements Initializable {
         TipoVidrios.setText("");
         tipoTransmision.setText("");
         tipoTraccion.setText("");
+        imagen.setImage(null);
+        imgFile = null;
     }
 
     @FXML
     private void tipoVehiculo(ActionEvent event) {
     }
+
+    @FXML
+    private void buscarImagen(MouseEvent event) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Buscar Imagen");
+        fc.setInitialDirectory(new File(System.getProperty("user.home")));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Imagen", "*.jpg", "*.png", "*.jpeg"));
+        
+        imgFile = fc.showOpenDialog(null);
+        if(imgFile!=null)
+            imagen.setImage(new Image(imgFile.toURI().toString()));
+    }
+    
+    private void guardarImagen(File imagen,String n) throws IOException{
+        String nuevoNombre = n+".png";
+        if(imagen!=null){
+            String rutaProyecto = System.getProperty("user.dir")+"\\src\\main\\resources";
+            String rutaCarpetaDestino = rutaProyecto + File.separator + "imagenesVehiculos";
+            File destinoCarpeta = new File(rutaCarpetaDestino);
+            if(!destinoCarpeta.exists())
+                destinoCarpeta.mkdirs();
+            File destinoArchivo = new File(rutaCarpetaDestino+File.separator+nuevoNombre);
+            if(destinoArchivo.exists())
+                destinoArchivo.delete();
+            Files.copy(imgFile.toPath(),destinoArchivo.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    
+        }else
+            throw new IOException();
+        
+    }
+    
     
     
     
