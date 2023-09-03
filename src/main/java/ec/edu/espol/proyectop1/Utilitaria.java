@@ -5,6 +5,8 @@
 package ec.edu.espol.proyectop1;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -63,38 +65,46 @@ public class Utilitaria {
         return hexString.toString();
     }
     
+    
+    
     public static void enviarConGMail(String destinatario, String asunto, String cuerpo) {
-    
-    String remitente = "eliezeracebo@gmail.com";
-    
-    String claveemail = "cuwlxtypzzjzdnbs";
+        Properties propiedades = new Properties();
+        try {
+            // Cargar las configuraciones desde el archivo de propiedades
+            propiedades.load(new FileInputStream("config.properties"));
 
-    Properties props = System.getProperties();
-    props.put("mail.smtp.host", "smtp.gmail.com"); 
-    props.put("mail.smtp.user", remitente);
-    props.put("mail.smtp.clave", claveemail);   
-    props.put("mail.smtp.auth", "true");   
-    props.put("mail.smtp.starttls.enable", "true"); 
-    props.put("mail.smtp.port", "587"); 
+            String remitente = propiedades.getProperty("correo.remitente");
+            String claveemail = propiedades.getProperty("correo.clave");
+            String smtpHost = propiedades.getProperty("correo.smtp.host");
+            String smtpPort = propiedades.getProperty("correo.smtp.port");
+            String smtpAuth = propiedades.getProperty("correo.smtp.auth");
+            String smtpStartTLS = propiedades.getProperty("correo.smtp.starttls.enable");
 
-    Session session = Session.getDefaultInstance(props);
-    MimeMessage message = new MimeMessage(session);
+            // Resto de tu código para enviar el correo utilizando estas configuraciones
+            Properties props = System.getProperties();
+            props.put("mail.smtp.host", smtpHost);
+            props.put("mail.smtp.user", remitente);
+            props.put("mail.smtp.clave", claveemail);
+            props.put("mail.smtp.auth", smtpAuth);
+            props.put("mail.smtp.starttls.enable", smtpStartTLS);
+            props.put("mail.smtp.port", smtpPort);
 
-    try {
-        message.setFrom(new InternetAddress(remitente));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));   
-        message.setSubject(asunto);
-        message.setText(cuerpo);
-        Transport transport = session.getTransport("smtp");
-        transport.connect("smtp.gmail.com", remitente, claveemail);
-        transport.sendMessage(message, message.getAllRecipients());
-        transport.close();
-    }
-    catch (MessagingException me) {
-        me.printStackTrace();   
-    }
-  }
- 
+            Session session = Session.getDefaultInstance(props);
+            MimeMessage message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress(remitente));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+            message.setSubject(asunto);
+            message.setText(cuerpo);
+
+            Transport transport = session.getTransport("smtp");
+            transport.connect(smtpHost, remitente, claveemail);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        } catch (IOException | MessagingException e) {
+            e.printStackTrace();
+        }
+    } 
     
 }
     

@@ -17,16 +17,15 @@ import java.util.Scanner;
  * @author nicolassierra
  */
 public class Oferta {
-    Usuario comprador;
-    Usuario vendedor;
+    Usuario usuario;
     Vehiculo vehiculo;
     private final double precioOfertado;
 
     
    
-    public Oferta(Usuario comprador, Usuario vendedor, double precioOfertado, Vehiculo vehiculo) {
-        this.comprador = comprador;
-        this.vendedor = vendedor;
+    public Oferta(Usuario usuario, double precioOfertado, Vehiculo vehiculo) {
+        this.usuario = usuario;
+        
         this.vehiculo = vehiculo;
         this.precioOfertado = precioOfertado;
         
@@ -34,13 +33,12 @@ public class Oferta {
     }
     
 
-    public Usuario getComprador(){
-        return this.comprador;
+    public Usuario getUsuario(){
+        return this.usuario;
     }
     
-    public Usuario getVendedor(){
-        return this.vendedor;
-    }
+    
+    
     
     public Vehiculo getVehiculo(){
         return this.vehiculo;
@@ -71,6 +69,21 @@ public class Oferta {
         return ofertas;
     }
     
+      public static ArrayList<Oferta> filtrarOfertasPorVehiculo(Vehiculo vehiculo, String nombreArchivo) {
+        ArrayList<Oferta> ofertas = readListFromFileSer(nombreArchivo);
+        ArrayList<Oferta> ofertasFiltradas = new ArrayList<>();
+
+        String placaVehiculo = vehiculo.getPlaca();
+
+        for (Oferta oferta : ofertas) {
+            Vehiculo vehiculoOferta = oferta.getVehiculo();
+            if (vehiculoOferta != null && vehiculoOferta.getPlaca().equals(placaVehiculo)) {
+                ofertasFiltradas.add(oferta);
+            }
+        }
+
+        return ofertasFiltradas;
+    }
    
     
     

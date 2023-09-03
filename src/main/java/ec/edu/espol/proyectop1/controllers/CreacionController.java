@@ -278,7 +278,7 @@ public class CreacionController implements Initializable {
             } else {
                 if ("Moto".equals(seleccion)) {
                     //Si es moto, crea un objeto moto
-                    Vehiculo v = new Vehiculo(pl, marc, model, motor, ano, reco, col, combust, price);
+                    Vehiculo v = new Vehiculo(usuarioC,pl, marc, model, motor, ano, reco, col, combust, price);
                     v.guardarInfoSer("vehiculos.ser");
                     usuarioC.getVehiculos().add(v);
                     guardarImagen(imgFile, pl);
@@ -293,7 +293,7 @@ public class CreacionController implements Initializable {
                         return;
                     }
 
-                    Auto auto = new Auto(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision, price);
+                    Auto auto = new Auto(usuarioC,pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision, price);
                     auto.guardarInfoSer("vehiculos.ser");
                     usuarioC.getVehiculos().add(auto);
                     guardarImagen(imgFile, pl);
@@ -310,7 +310,7 @@ public class CreacionController implements Initializable {
                     }
 
                     // Si se proporciona la capacidad, crea un objeto Camioneta
-                    Camioneta camioneta = new Camioneta(pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision, price, traccion);
+                    Camioneta camioneta = new Camioneta(usuarioC,pl, marc, model, motor, ano, reco, col, combust, vidrio, transmision, price, traccion);
                     camioneta.guardarInfoSer("vehiculos.ser");
                     usuarioC.getVehiculos().add(camioneta);
                     guardarImagen(imgFile, pl);

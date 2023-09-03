@@ -18,9 +18,10 @@ import java.util.Scanner;
 public class Auto extends Vehiculo{
     private String tipoVidrios;
     private String tipoTransmision;
+    
 
-    public Auto(String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, String tipoVidrios, String tipoTransmision, double precio) { //auto de verdad
-        super(placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, precio);
+    public Auto(Usuario usuario, String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, String tipoVidrios, String tipoTransmision, double precio) { //auto de verdad
+        super(usuario, placa, marca, modelo, tipoMotor, anio, recorrido, color, tipoCombustible, precio);
         this.tipoVidrios = tipoVidrios;
         this.tipoTransmision = tipoTransmision;
     }

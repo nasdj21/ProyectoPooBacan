@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
+
 public class Vehiculo implements Serializable {
     private String placa;
     private String marca;
@@ -21,9 +22,10 @@ public class Vehiculo implements Serializable {
     private String color;
     private String tipoCombustible;
     private double precio;
-    
+    private Usuario usuario;
 
-    public Vehiculo(String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, double precio) {
+    public Vehiculo(Usuario usuario,String placa, String marca, String modelo, String tipoMotor, int anio, int recorrido, String color, String tipoCombustible, double precio) {
+        this.usuario = usuario;
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
@@ -35,17 +37,18 @@ public class Vehiculo implements Serializable {
         this.precio = precio;
     }
 
-    
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
     
     public String getTipo(){
         String g = this.getClass().getName();
         return g;
     }
-    
-
-    
-
-
     
     public String getPlaca() {
         return placa;
@@ -121,7 +124,19 @@ public class Vehiculo implements Serializable {
         return false; 
     }
 
-    
+    public static ArrayList<Vehiculo> filtrarVehiculoPorUsuario(Usuario usuario, String nombreArchivo) {
+        ArrayList<Vehiculo> vehiculos = leerInfoSer(nombreArchivo);
+        ArrayList<Vehiculo> vehiculosDelUsuario = new ArrayList<>();
+
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getUsuario() != null && vehiculo.getUsuario().getCorreo().equals(usuario.getCorreo())) {
+                vehiculosDelUsuario.add(vehiculo);
+            }
+        }
+
+        return vehiculosDelUsuario;
+    }
+
    
 }
     
