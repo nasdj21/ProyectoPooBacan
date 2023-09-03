@@ -50,8 +50,10 @@ public class Oferta {
     
 
     public void saveSer(String nomfile){
+        ArrayList<Oferta>ofertas = Oferta.readListFromFileSer(nomfile);
+        ofertas.add(this);
         try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nomfile))){
-            out.writeObject(this);
+            out.writeObject(ofertas);
         }
         catch(IOException e){
             

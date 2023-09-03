@@ -24,6 +24,7 @@
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="144.0" minHeight="10.0" prefHeight="133.0" vgrow="SOMETIMES" />
@@ -31,16 +32,22 @@
                 <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="nuevoCarro" mnemonicParsing="false" onMouseClicked="#nuevoVehiculo" text="Registrar nuevo vehiculo" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <Button fx:id="verCarros" mnemonicParsing="false" onMouseClicked="#verVehiculos" text="Vehiculos para ofertar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                  <Button fx:id="nuevoCarro" mnemonicParsing="false" onMouseClicked="#nuevoVehiculo" prefHeight="17.0" prefWidth="141.0" text="Nuevo Vehiculo" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Button fx:id="verCarros" mnemonicParsing="false" onMouseClicked="#verVehiculosOfertar" text="Vehiculos para ofertar" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <ImageView fitHeight="115.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
                      <image>
                         <Image url="@../../../../llaves.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <ImageView fitHeight="107.0" fitWidth="152.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                      <image>
                         <Image url="@../../../../bugatti.jpg" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="misCarrosButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#verMisVehiculos" text="Mis Carros" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <ImageView fitHeight="123.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@../../../../carGarage.jpg" />
                      </image>
                   </ImageView>
                </children>

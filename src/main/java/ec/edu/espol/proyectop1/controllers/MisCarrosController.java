@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -64,102 +65,108 @@ public class MisCarrosController implements Initializable {
     private void buscarVehiculo(MouseEvent event) {
         
             
-        try {
-            String[] recorridos = recorrido.getText().split("-");
-            String[] año = ano.getText().split("-");
-            String[] precios = precio.getText().split("-");
-            String tipoVehiculo = tipo.getText();
-            ArrayList<Vehiculo>vehiculos = new ArrayList<>();
-
-            if(recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty() && tipoVehiculo.isEmpty())
-                vehiculos = Vehiculo.leerInfoSer("vehiculos.ser");
-            else{
-                ArrayList<Vehiculo>temporal = Vehiculo.leerInfoSer("vehiculos.ser");
-                for(Vehiculo v : temporal){
-                    if(v.getRecorrido() > Double.parseDouble(recorridos[0]) && v.getRecorrido() < Double.parseDouble(recorridos[1]) && v.getAnio() > Integer.parseInt(año[0]) && v.getAnio() < Integer.parseInt(año[1]) && v.getPrecio() > Double.parseDouble(precios[0]) && v.getPrecio() < Double.parseDouble(precios[1]) && v.getTipo().equals(tipoVehiculo))
-                        vehiculos.add(v);
-                }
-
-            }
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
-            Parent root = loader.load();
-            
-            CarrosEncontradosController cencontradorController = loader.getController();
-            cencontradorController.mostrar(vehiculos);
-            cencontradorController.setUsuario(usuarioC);
-            
-            
-
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) buscar.getScene().getWindow(); 
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    //el metodo de Arriba con validacines de los campos, no modifique porsi te dañaba algo, pero aqui estan las validaciones que puedes hacer
-//     try {
-//        String[] recorridos = recorrido.getText().split("-");
-//        String[] años = ano.getText().split("-");
-//        String[] precios = precio.getText().split("-");
-//        String tipoVehiculo = tipo.getText();
-//        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+//        try {
+//            String[] recorridos = recorrido.getText().split("-");
+//            String[] año = ano.getText().split("-");
+//            String[] precios = precio.getText().split("-");
+//            String tipoVehiculo = tipo.getText();
+//            ArrayList<Vehiculo>vehiculos = new ArrayList<>();
 //
-//        if (recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty() && tipoVehiculo.isEmpty()) {
-//            vehiculos = Vehiculo.leerInfoSer("vehiculos.ser");
-//        } else {
-//            if (recorridos.length != 2 || años.length != 2 || precios.length != 2) {
-//                Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese rangos válidos (por ejemplo: 0-10000).");
-//                alerta.show();
-//                return;
-//            }
-//
-//            double recorridoMin = Double.parseDouble(recorridos[0]);
-//            double recorridoMax = Double.parseDouble(recorridos[1]);
-//            int añoMin = Integer.parseInt(años[0]);
-//            int añoMax = Integer.parseInt(años[1]);
-//            double precioMin = Double.parseDouble(precios[0]);
-//            double precioMax = Double.parseDouble(precios[1]);
-//
-//            if (recorridoMin >= recorridoMax || añoMin >= añoMax || precioMin >= precioMax) {
-//                Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese rangos válidos.");
-//                alerta.show();
-//                return;
-//            }
-//
-//            ArrayList<Vehiculo> temporal = Vehiculo.leerInfoSer("vehiculos.ser");
-//            for (Vehiculo v : temporal) {
-//                if (v.getRecorrido() > recorridoMin && v.getRecorrido() < recorridoMax &&
-//                    v.getAnio() > añoMin && v.getAnio() < añoMax &&
-//                    v.getPrecio() > precioMin && v.getPrecio() < precioMax &&
-//                    v.getTipo().equals(tipoVehiculo)) {
-//                    vehiculos.add(v);
+//            if(recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty() && tipoVehiculo.isEmpty())
+//                vehiculos = Vehiculo.leerInfoSer("vehiculos.ser");
+//            else{
+//                ArrayList<Vehiculo>temporal = Vehiculo.leerInfoSer("vehiculos.ser");
+//                for(Vehiculo v : temporal){
+//                    if(v.getRecorrido() > Double.parseDouble(recorridos[0]) && v.getRecorrido() < Double.parseDouble(recorridos[1]) && v.getAnio() > Integer.parseInt(año[0]) && v.getAnio() < Integer.parseInt(año[1]) && v.getPrecio() > Double.parseDouble(precios[0]) && v.getPrecio() < Double.parseDouble(precios[1]) && v.getTipo().equals(tipoVehiculo))
+//                        vehiculos.add(v);
 //                }
+//
 //            }
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
+//            Parent root = loader.load();
+//            
+//            CarrosEncontradosController cencontradorController = loader.getController();
+//            cencontradorController.mostrar(vehiculos);
+//            cencontradorController.setUsuario(usuarioC);
+//            
+//            
+//
+//            Scene scene = new Scene(root);
+//            Stage stage = (Stage) buscar.getScene().getWindow(); 
+//            stage.setScene(scene);
+//            stage.show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
 //        }
-//
-//        if (vehiculos.isEmpty()) {
-//            Alert alerta = new Alert(Alert.AlertType.INFORMATION, "No se encontraron vehículos que cumplan con los criterios de búsqueda.");
-//            alerta.show();
-//            return;
+    
+    
+    
+     try {
+        String[] recorridos = recorrido.getText().split("-");
+        String[] años = ano.getText().split("-");
+        String[] precios = precio.getText().split("-");
+        String tipoVehiculo = tipo.getText();
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+        ArrayList<Vehiculo> carros = Vehiculo.leerInfoSer("vehiculos.ser");
+//        for(Vehiculo c : carros){
+//            if(c.getUsuario().equals(usuarioC))
+//                carros.remove(c);
 //        }
-//
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
-//        Parent root = loader.load();
-//
-//        CarrosEncontradosController cencontradorController = loader.getController();
-//        cencontradorController.mostrar(vehiculos);
-//        cencontradorController.setUsuario(usuarioC);
-//
-//        Scene scene = new Scene(root);
-//        Stage stage = (Stage) buscar.getScene().getWindow();
-//        stage.setScene(scene);
-//        stage.show();
-//    } catch (IOException e) {
-//        e.printStackTrace();
-//    }
+
+        if (recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty() && tipoVehiculo.isEmpty()) {
+            vehiculos = carros;
+        } else {
+            if (recorridos.length != 2 || años.length != 2 || precios.length != 2) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese rangos válidos (por ejemplo: 0-10000).");
+                alerta.show();
+                return;
+            }
+
+            double recorridoMin = Double.parseDouble(recorridos[0]);
+            double recorridoMax = Double.parseDouble(recorridos[1]);
+            int añoMin = Integer.parseInt(años[0]);
+            int añoMax = Integer.parseInt(años[1]);
+            double precioMin = Double.parseDouble(precios[0]);
+            double precioMax = Double.parseDouble(precios[1]);
+
+            if (recorridoMin >= recorridoMax || añoMin >= añoMax || precioMin >= precioMax) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese rangos válidos.");
+                alerta.show();
+                return;
+            }
+
+            ArrayList<Vehiculo> temporal = Vehiculo.leerInfoSer("vehiculos.ser");
+            for (Vehiculo v : temporal) {
+                if (v.getRecorrido() > recorridoMin && v.getRecorrido() < recorridoMax &&
+                    v.getAnio() > añoMin && v.getAnio() < añoMax &&
+                    v.getPrecio() > precioMin && v.getPrecio() < precioMax &&
+                    v.getTipo().equals(tipoVehiculo) && !(v.getUsuario().equals(usuarioC))) {
+                    vehiculos.add(v);
+                }
+            }
+        }
+
+        if (vehiculos.isEmpty()) {
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION, "No se encontraron vehículos que cumplan con los criterios de búsqueda.");
+            alerta.show();
+            return;
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
+        Parent root = loader.load();
+
+        CarrosEncontradosController cencontradorController = loader.getController();
+        cencontradorController.mostrar(vehiculos);
+        cencontradorController.setUsuario(usuarioC);
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) buscar.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+  }
         
     
 

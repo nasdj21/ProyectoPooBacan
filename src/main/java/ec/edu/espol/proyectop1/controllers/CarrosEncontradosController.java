@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
@@ -82,6 +82,7 @@ public class CarrosEncontradosController implements Initializable {
     }
     
     public void mostrar(ArrayList<Vehiculo>vehiculos){
+        this.vehiculos = vehiculos;
         vcarros.setSpacing(10); 
         TableColumn marcaColumn = new TableColumn("Marca");
         TableColumn modeloColumn = new TableColumn("Modelo");
@@ -99,8 +100,7 @@ public class CarrosEncontradosController implements Initializable {
         
         table.getColumns().addAll(marcaColumn, modeloColumn, placaColumn, añoColumn, recorridoColumn, precioColumn);
         table.setItems(data);
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
     }
 
     @FXML
@@ -112,6 +112,9 @@ public class CarrosEncontradosController implements Initializable {
             SpecsCarroController specsController = loader.getController();
 
             specsController.show(table.getSelectionModel().getSelectedItem());
+            specsController.pasarVehiculo(table.getSelectionModel().getSelectedItem());
+            specsController.setUsuarioSpecs(usuarioE);
+            specsController.pasarListaVehiculos(vehiculos);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) regresar.getScene().getWindow(); 

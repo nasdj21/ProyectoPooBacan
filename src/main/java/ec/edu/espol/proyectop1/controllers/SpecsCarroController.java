@@ -6,15 +6,19 @@ package ec.edu.espol.proyectop1.controllers;
 
 import ec.edu.espol.proyectop1.Auto;
 import ec.edu.espol.proyectop1.Camioneta;
+import ec.edu.espol.proyectop1.Oferta;
+import ec.edu.espol.proyectop1.Usuario;
 import ec.edu.espol.proyectop1.Vehiculo;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -63,6 +67,27 @@ public class SpecsCarroController implements Initializable {
     private Label tipo;
     @FXML
     private TextField fieldValor;
+    
+    private Usuario usuarioSpecs;
+    
+    private Vehiculo veh;
+    
+    private ArrayList<Vehiculo>carros;
+    
+    public void setUsuarioSpecs(Usuario usuario){
+        this.usuarioSpecs = usuario;
+    }
+    
+    public void pasarVehiculo(Vehiculo v){
+        this.veh = v;
+    }
+    
+    public void pasarListaVehiculos(ArrayList<Vehiculo>vehiculos){
+        this.carros = vehiculos;
+        
+    }
+        
+    
 
     /**
      * Initializes the controller class.
@@ -72,24 +97,72 @@ public class SpecsCarroController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        boolean seleccionado = checkOfertar.isSelected();
         fieldValor.setDisable(true);
-        checkOfertar.setOnAction(event -> {
-            if(seleccionado)
-                fieldValor.setDisable(false);
-            
-        
-                
-        });
     }    
 
     @FXML
     private void checkOfertar(MouseEvent event) {
+        if(checkOfertar.isSelected())
+            fieldValor.setDisable(false); 
+        else{
+            fieldValor.clear();
+            fieldValor.setDisable(true);  
+        }
+        
     }
 
     @FXML
     private void ofertar(MouseEvent event) {
-    }
+        ArrayList<Oferta>ofertas = Oferta.readListFromFileSer("ofertas.ser");
+        Double precioOfertado = Double.parseDouble(fieldValor.getText());
+        boolean ofertaExiste = false;
+        for(Oferta o : ofertas){
+            if(o.getUsuario().equals(usuarioSpecs) && o.getVehiculo().equals(veh))
+                ofertaExiste = true;
+        }
+        
+        if(ofertaExiste){
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Ya existe una oferta para este carro de su parte");
+        }
+        else if(veh.getUsuario().equals(usuarioSpecs)){ //Si es mi propio carro, por si las moscas
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "No puede ofertar por su propio vehiculo");
+            alerta.show();
+            return;
+            
+        }
+            
+        
+        else if(fieldValor.getText().isEmpty()){ // si no se ha agregado ningun valor
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese precio a ofertar.");
+            alerta.show();
+            return; 
+        }
+        
+        else{
+            try{
+                Oferta oferta = new Oferta(usuarioSpecs, Double.parseDouble(fieldValor.getText()) ,veh);
+                oferta.saveSer("ofertas.ser");
+                carros.remove(veh);
+                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Oferta creada con exito");
+                alerta.show();
+                
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
+                Parent root = loader.load();
+
+                CarrosEncontradosController cencontradorController = loader.getController();
+                cencontradorController.mostrar(carros);
+                cencontradorController.setUsuario(usuarioSpecs);
+
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ofertarBoton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            }catch (IOException e) {
+            e.printStackTrace();
+        }
+     }
+                    
+   }
     
     public void show(Vehiculo ve){
         if(ve instanceof Camioneta){

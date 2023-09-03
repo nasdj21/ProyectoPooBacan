@@ -5,8 +5,10 @@
 package ec.edu.espol.proyectop1.controllers;
 
 import ec.edu.espol.proyectop1.Usuario;
+import ec.edu.espol.proyectop1.Vehiculo;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +41,8 @@ public class InicioController implements Initializable {
     private Button regresar;
     private ImageView imagenDePerfil;
     private Image imagenPerfil;
+    @FXML
+    private Button misCarrosButton;
     public void setUsuario(Usuario usuario) {
         this.usuarioInicio = usuario;
         System.out.println("Usuario recibido: " + usuarioInicio.getNombres()); // Agrega esta línea
@@ -74,27 +78,6 @@ public class InicioController implements Initializable {
     }
 
     @FXML
-    private void verVehiculos(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/misCarros.fxml"));
-            Parent root = loader.load();
-            
-            // Obtén una referencia al controlador de mis vehiculos
-            MisCarrosController carrosController = loader.getController();
-
-            // Pasa el usuario al controlador de creación
-            carrosController.setUsuarioMisCarros(usuarioInicio);
-
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) verCarros.getScene().getWindow(); 
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @FXML
     private void regresarIn(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/login.fxml"));
@@ -128,6 +111,52 @@ public class InicioController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void verVehiculosOfertar(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/misCarros.fxml"));
+            Parent root = loader.load();
+            
+            // Obtén una referencia al controlador de mis vehiculos
+            MisCarrosController carrosController = loader.getController();
+
+            // Pasa el usuario al controlador de creación
+            carrosController.setUsuarioMisCarros(usuarioInicio);
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) verCarros.getScene().getWindow(); 
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void verMisVehiculos(MouseEvent event) {
+        ArrayList<Vehiculo>vehicls = Vehiculo.leerInfoSer("vehiculos.ser");
+        for(Vehiculo v : vehicls){
+            if(!(v.getUsuario().equals(usuarioInicio)))
+                vehicls.remove(v);
+        }
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
+            Parent root = loader.load();
+
+            CarrosEncontradosController cencontradorController = loader.getController();
+            cencontradorController.mostrar(vehicls);
+            cencontradorController.setUsuario(usuarioInicio);
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) misCarrosButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+    }
+        
     }
     
 }
