@@ -10,9 +10,12 @@ import ec.edu.espol.proyectop1.Oferta;
 import ec.edu.espol.proyectop1.Usuario;
 import ec.edu.espol.proyectop1.Utilitaria;
 import ec.edu.espol.proyectop1.Vehiculo;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -30,6 +33,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javax.mail.MessagingException;
+
 
 /**
  * FXML Controller class
@@ -74,6 +79,12 @@ public class SpecsAceptarOfertaController implements Initializable {
     private Usuario usuarioAceptarOferta;
     private Vehiculo vehiculosSelec;
     private ArrayList<Vehiculo> vehiculosFiltrados;
+    private ArrayList<Button> botonesOferta = new ArrayList<>();
+
+    
+    private ArrayList<Vehiculo> vehiculosSerializados;
+    
+   
     
     public void setUsuarioAceptar(Usuario usuarioU){
         this.usuarioAceptarOferta= usuarioU;
@@ -94,10 +105,13 @@ public class SpecsAceptarOfertaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-//        Platform.runLater(() -> llenarDatos());
-//        cargarBotonesOfertas();
-    }
+        vehiculosSerializados = Vehiculo.leerInfoSer("vehiculos.ser"); 
         
+        
+        
+        
+    }
+    
     public  void llenarDatos(Vehiculo ve){
         
         String nombreImagen = ve.getPlaca() + ".png"; 
@@ -154,43 +168,50 @@ public class SpecsAceptarOfertaController implements Initializable {
             }
     }
     
-    private void cargarBotonesOfertas() {
+    public void cargarBotonesOfertas() {
         ArrayList<Oferta> ofertas = Oferta.filtrarOfertasPorVehiculo(vehiculosSelec, "ofertas.ser"); 
         for (Oferta oferta : ofertas) {
             Button botonOferta = new Button("Oferta:" + oferta.getPrecioOfertado());
             botonOferta.setOnAction(event -> aceptarOferta(botonOferta,oferta));
             vBox.getChildren().add(botonOferta);
+            botonesOferta.add(botonOferta);
         }
     }
+    
+    
+    
     private void aceptarOferta(Button botonOferta,Oferta oferta) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Ha aceptado la oferta");
         alerta.show();
         
-    ArrayList<Vehiculo> vehiculosSerializados = Vehiculo.leerInfoSer("vehiculos.ser"); 
-    if (vehiculosSerializados != null) {
-        
-        int index = -1;
-        for (int i = 0; i < vehiculosSerializados.size(); i++) {
-            if (vehiculosSerializados.get(i).getPlaca().equals(vehiculosSelec.getPlaca())) {
-                index = i;
-                break;
+         //vehiculosSerializados = Vehiculo.leerInfoSer("vehiculos.ser"); 
+        if (vehiculosSerializados != null) {
+
+            int index = -1;
+            for (int i = 0; i < vehiculosSerializados.size(); i++) {
+                if (vehiculosSerializados.get(i).getPlaca().equals(vehiculosSelec.getPlaca())) {
+                    index = i;
+                    break;
+                }
+            }
+
+
+            if (index != -1) {
+                vehiculosSerializados.remove(index);
+
+
+
+
+
+                vehiculosFiltrados.remove(vehiculosSelec);
+                
             }
         }
-        
-        
-        if (index != -1) {
-            vehiculosSerializados.remove(index);
-            
-            
-            
-            
-            
-            vehiculosFiltrados.remove(vehiculosSelec);
+        for (Button button : botonesOferta) {
+            button.setDisable(true);
         }
-    }
-        botonOferta.setDisable(true);
-        
-       Utilitaria.enviarConGMail(oferta.getUsuario().getCorreo(), "Oferta aceptada", "Su oferta a un vehiculo a sido aceptada por el dueño");
+
+        Utilitaria.enviarConGMail(oferta.getUsuario().getCorreo(), "Oferta aceptada","Su oferta al vehículo con placa " + vehiculosSelec.getPlaca() + " ha sido aceptada por su dueño.\nInformación del dueño:\nNombres: " + vehiculosSelec.getUsuario().getNombres() + "\nApellidos: " + vehiculosSelec.getUsuario().getApellidos() + "\nOrganización: " + vehiculosSelec.getUsuario().getOrganizacion() + "\nCorreo: " + vehiculosSelec.getUsuario().getCorreo()  );
     }
 
 
@@ -203,6 +224,9 @@ public class SpecsAceptarOfertaController implements Initializable {
             CarrosUsuarioController usu  = loader.getController();
             usu.setMisCarros(usuarioAceptarOferta);
             usu.setArrayCarros(vehiculosFiltrados);
+            usu.vehiculosAer(vehiculosSerializados);
+            
+            
             
             
             

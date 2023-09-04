@@ -44,6 +44,11 @@ public class CarrosUsuarioController implements Initializable {
     private Button regresar;
     private Usuario usuarioU;
     private ArrayList<Vehiculo> misCarros;
+    private ArrayList<Vehiculo> vSer;
+    
+    public void vehiculosAer(ArrayList<Vehiculo> actu){
+        this.vSer = actu;
+    }
     
     public void setMisCarros(Usuario usuario){
         this.usuarioU = usuario;
@@ -62,12 +67,12 @@ public class CarrosUsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        Platform.runLater(() -> llenarTabla());
+        Platform.runLater(() -> llenarTabla(misCarros));
         
 
     }    
-    private void llenarTabla() {
-        misCarros = Vehiculo.filtrarVehiculoPorUsuario(usuarioU, "vehiculos.ser");
+    public void llenarTabla(ArrayList<Vehiculo> v) {
+        //misCarros = Vehiculo.filtrarVehiculoPorUsuario(usuarioU, "vehiculos.ser");
         vcarros.setSpacing(10);
 
         TableColumn<Vehiculo, String> marcaColumn = new TableColumn<>("Marca");
@@ -77,7 +82,7 @@ public class CarrosUsuarioController implements Initializable {
         TableColumn<Vehiculo, Integer> recorridoColumn = new TableColumn<>("Recorrido");
         TableColumn<Vehiculo, Double> precioColumn = new TableColumn<>("Precio");
 
-        ObservableList<Vehiculo> data = FXCollections.observableArrayList(misCarros);
+        ObservableList<Vehiculo> data = FXCollections.observableArrayList(v);
         marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
         modeloColumn.setCellValueFactory(new PropertyValueFactory<>("modelo"));
         placaColumn.setCellValueFactory(new PropertyValueFactory<>("placa"));
@@ -104,6 +109,7 @@ public class CarrosUsuarioController implements Initializable {
             specsController.mostrarDetalles(table.getSelectionModel().getSelectedItem()); 
             specsController.llenarDatos(table.getSelectionModel().getSelectedItem());
             specsController.setVehiculos(misCarros);
+            specsController.cargarBotonesOfertas();
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) table.getScene().getWindow(); 
@@ -123,6 +129,7 @@ public class CarrosUsuarioController implements Initializable {
             
             InicioController inicio  = loader.getController();
             inicio.setUsuario(usuarioU);
+            inicio.setVSer(vSer);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) regresar.getScene().getWindow(); 

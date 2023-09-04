@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,7 +17,7 @@ import java.util.Scanner;
  *
  * @author nicolassierra
  */
-public class Oferta {
+public class Oferta implements Serializable{
     Usuario usuario;
     Vehiculo vehiculo;
     private final double precioOfertado;
@@ -87,7 +88,6 @@ public class Oferta {
         return ofertasFiltradas;
     }
    
-    
     
     
  }

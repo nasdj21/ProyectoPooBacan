@@ -23,6 +23,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -73,6 +75,8 @@ public class SpecsCarroController implements Initializable {
     private Vehiculo veh;
     
     private ArrayList<Vehiculo>carros;
+    @FXML
+    private ImageView imView;
     
     public void setUsuarioSpecs(Usuario usuario){
         this.usuarioSpecs = usuario;
@@ -112,7 +116,8 @@ public class SpecsCarroController implements Initializable {
     }
 
     @FXML
-    private void ofertar(MouseEvent event) {
+    private void ofertar(MouseEvent event) throws IOException, ClassNotFoundException {
+        
         ArrayList<Oferta>ofertas = Oferta.readListFromFileSer("ofertas.ser");
         Double precioOfertado = Double.parseDouble(fieldValor.getText());
         boolean ofertaExiste = false;
@@ -161,10 +166,12 @@ public class SpecsCarroController implements Initializable {
             e.printStackTrace();
         }
      }
-                    
-   }
+    }
     
     public void show(Vehiculo ve){
+        String nombreImagen = ve.getPlaca() + ".png"; 
+        Image imagen = new Image("/imagenesVehiculos/" + nombreImagen); 
+        imView.setImage(imagen); 
         if(ve instanceof Camioneta){
             Camioneta v = (Camioneta)ve;
             tipo.setText("Camioneta");

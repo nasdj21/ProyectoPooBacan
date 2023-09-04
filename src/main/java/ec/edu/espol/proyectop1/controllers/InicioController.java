@@ -41,12 +41,17 @@ public class InicioController implements Initializable {
     private Button regresar;
     private ImageView imagenDePerfil;
     private Image imagenPerfil;
+    private ArrayList<Vehiculo> carrosFiltrados;
     @FXML
     private Button misCarrosButton;
     public void setUsuario(Usuario usuario) {
         this.usuarioInicio = usuario;
         System.out.println("Usuario recibido: " + usuarioInicio.getNombres()); // Agrega esta línea
 
+    }
+     public void setVSer(ArrayList<Vehiculo> carros) {
+        this.carrosFiltrados = carros;
+        
     }
         
     /**
@@ -143,6 +148,8 @@ public class InicioController implements Initializable {
 
             CarrosUsuarioController misCarros = loader.getController();
             //cencontradorController.mostrar(vehicls);
+            carrosFiltrados = Vehiculo.filtrarVehiculoPorUsuario(usuarioInicio, "vehiculos.ser");
+            misCarros.setArrayCarros(carrosFiltrados);
             misCarros.setMisCarros(usuarioInicio);
 
             Scene scene = new Scene(root);

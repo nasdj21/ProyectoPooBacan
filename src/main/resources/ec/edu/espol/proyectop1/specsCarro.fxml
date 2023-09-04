@@ -170,7 +170,7 @@
                   </Label>
                </children>
             </GridPane>
-            <ImageView fitHeight="118.0" fitWidth="159.0" layoutX="422.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imView" fitHeight="118.0" fitWidth="159.0" layoutX="422.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
             <CheckBox fx:id="checkOfertar" layoutX="438.0" layoutY="191.0" mnemonicParsing="false" onMouseClicked="#checkOfertar" text="¿ Desea Ofertar ?" textFill="#ebe7e7">
                <font>
                   <Font size="14.0" />
