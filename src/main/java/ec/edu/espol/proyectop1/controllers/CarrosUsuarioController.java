@@ -93,17 +93,16 @@ public class CarrosUsuarioController implements Initializable {
 
     @FXML
     private void specs(MouseEvent event) {
-    Vehiculo vehiculoSeleccionado = table.getSelectionModel().getSelectedItem();
     
-    if (vehiculoSeleccionado != null) {
+    if (table.getSelectionModel().getSelectedItem() != null) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/specsAceptarOferta.fxml"));
             Parent root = loader.load();
             
             SpecsAceptarOfertaController specsController = loader.getController();
             specsController.setUsuarioAceptar(usuarioU);
-            specsController.mostrarDetalles(vehiculoSeleccionado); 
-            specsController.llenarDatos(vehiculoSeleccionado);
+            specsController.mostrarDetalles(table.getSelectionModel().getSelectedItem()); 
+            specsController.llenarDatos(table.getSelectionModel().getSelectedItem());
             specsController.setVehiculos(misCarros);
 
             Scene scene = new Scene(root);

@@ -64,40 +64,6 @@ public class MisCarrosController implements Initializable {
     @FXML
     private void buscarVehiculo(MouseEvent event) {
         
-            
-//        try {
-//            String[] recorridos = recorrido.getText().split("-");
-//            String[] año = ano.getText().split("-");
-//            String[] precios = precio.getText().split("-");
-//            String tipoVehiculo = tipo.getText();
-//            ArrayList<Vehiculo>vehiculos = new ArrayList<>();
-//
-//            if(recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty() && tipoVehiculo.isEmpty())
-//                vehiculos = Vehiculo.leerInfoSer("vehiculos.ser");
-//            else{
-//                ArrayList<Vehiculo>temporal = Vehiculo.leerInfoSer("vehiculos.ser");
-//                for(Vehiculo v : temporal){
-//                    if(v.getRecorrido() > Double.parseDouble(recorridos[0]) && v.getRecorrido() < Double.parseDouble(recorridos[1]) && v.getAnio() > Integer.parseInt(año[0]) && v.getAnio() < Integer.parseInt(año[1]) && v.getPrecio() > Double.parseDouble(precios[0]) && v.getPrecio() < Double.parseDouble(precios[1]) && v.getTipo().equals(tipoVehiculo))
-//                        vehiculos.add(v);
-//                }
-//
-//            }
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
-//            Parent root = loader.load();
-//            
-//            CarrosEncontradosController cencontradorController = loader.getController();
-//            cencontradorController.mostrar(vehiculos);
-//            cencontradorController.setUsuario(usuarioC);
-//            
-//            
-//
-//            Scene scene = new Scene(root);
-//            Stage stage = (Stage) buscar.getScene().getWindow(); 
-//            stage.setScene(scene);
-//            stage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     
     
     
@@ -108,15 +74,20 @@ public class MisCarrosController implements Initializable {
         String tipoVehiculo = tipo.getText();
         ArrayList<Vehiculo> vehiculos = new ArrayList<>();
         ArrayList<Vehiculo> carros = Vehiculo.leerInfoSer("vehiculos.ser");
-//        for(Vehiculo c : carros){
-//            if(c.getUsuario().equals(usuarioC))
-//                carros.remove(c);
-//        }
+
 
         if (recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty() && tipoVehiculo.isEmpty()) {
-            vehiculos = carros;
-        } else {
+            System.out.println("Campos vacios");
+            for(Vehiculo v : carros){
+                if(!((usuarioC.getNombres()).equals(v.getUsuario().getNombres()))){
+                    vehiculos.add(v);
+                }
+            }
+        }else{
             if (recorridos.length != 2 || años.length != 2 || precios.length != 2) {
+                System.out.println(recorridos.length);
+                System.out.println(años.length);
+                System.out.println(precios.length);
                 Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese rangos válidos (por ejemplo: 0-10000).");
                 alerta.show();
                 return;
@@ -134,9 +105,7 @@ public class MisCarrosController implements Initializable {
                 alerta.show();
                 return;
             }
-
-            ArrayList<Vehiculo> temporal = Vehiculo.leerInfoSer("vehiculos.ser");
-            for (Vehiculo v : temporal) {
+            for (Vehiculo v : carros) {
                 if (v.getRecorrido() > recorridoMin && v.getRecorrido() < recorridoMax &&
                     v.getAnio() > añoMin && v.getAnio() < añoMax &&
                     v.getPrecio() > precioMin && v.getPrecio() < precioMax &&
