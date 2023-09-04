@@ -47,7 +47,7 @@
                   <Button fx:id="misCarrosButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#verMisVehiculos" text="Mis Carros" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   <ImageView fitHeight="123.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                      <image>
-                        <Image url="@../../../../carGarage.jpg" />
+                        <Image url="@../../../../aceptar.png" />
                      </image>
                   </ImageView>
                </children>

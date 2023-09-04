@@ -52,9 +52,14 @@ public class CarrosEncontradosController implements Initializable {
     
     public void setUsuario(Usuario usuario){
         this.usuarioE = usuario;
-        System.out.println("Usuario recibido: " + usuarioE.getNombres()); // Agrega esta línea
+        System.out.println("Usuario recibido: " + usuarioE.getNombres()); 
     }
-
+    
+    public void setArrayCarrosTodos(ArrayList<Vehiculo> carros){
+        this.vehiculos = carros;
+        
+    }
+    
       
     
     /**
@@ -71,6 +76,10 @@ public class CarrosEncontradosController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/misCarros.fxml"));
             Parent root = loader.load();
+            
+            MisCarrosController miscarrosController = loader.getController();
+            
+            miscarrosController.setUsuarioMisCarros(usuarioE);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) regresar.getScene().getWindow(); 

@@ -223,6 +223,10 @@ public class SpecsCarroController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
             Parent root = loader.load();
             
+            CarrosEncontradosController usu  = loader.getController();
+            usu.setUsuario(usuarioSpecs);
+            usu.setArrayCarrosTodos(carros);
+            usu.mostrar(carros);
             
 
             Scene scene = new Scene(root);
@@ -233,5 +237,7 @@ public class SpecsCarroController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    
     
 }

@@ -136,18 +136,14 @@ public class InicioController implements Initializable {
 
     @FXML
     private void verMisVehiculos(MouseEvent event) {
-        ArrayList<Vehiculo>vehicls = Vehiculo.leerInfoSer("vehiculos.ser");
-        for(Vehiculo v : vehicls){
-            if(!(v.getUsuario().equals(usuarioInicio)))
-                vehicls.remove(v);
-        }
+        
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosUsuario.fxml"));
             Parent root = loader.load();
 
-            CarrosEncontradosController cencontradorController = loader.getController();
-            cencontradorController.mostrar(vehicls);
-            cencontradorController.setUsuario(usuarioInicio);
+            CarrosUsuarioController misCarros = loader.getController();
+            //cencontradorController.mostrar(vehicls);
+            misCarros.setMisCarros(usuarioInicio);
 
             Scene scene = new Scene(root);
             Stage stage = (Stage) misCarrosButton.getScene().getWindow();
