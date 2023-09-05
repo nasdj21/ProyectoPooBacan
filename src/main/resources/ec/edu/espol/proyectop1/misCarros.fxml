@@ -25,7 +25,6 @@
           <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TIPO DE VEHICULO" GridPane.halignment="CENTER" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recorrido" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
@@ -36,19 +35,18 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRECIO" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRECIO" GridPane.halignment="CENTER">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <TextField fx:id="tipo" GridPane.columnIndex="1" />
             <TextField fx:id="recorrido" promptText="Especifique un rango (-)" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="11.0" />
                </font>
             </TextField>
             <TextField fx:id="ano" promptText="Especifique un rango (-)" GridPane.columnIndex="3" />
-            <TextField fx:id="precio" promptText="Especifique un rango (-)" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="precio" promptText="Especifique un rango (-)" GridPane.columnIndex="1" />
             <Button fx:id="regresar" mnemonicParsing="false" onMouseClicked="#regresarInicio" text="&lt;&lt; REGRESAR" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
             <Button fx:id="buscar" mnemonicParsing="false" onMouseClicked="#buscarVehiculo" text="BUSCAR" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Button fx:id="borrar" mnemonicParsing="false" onMouseClicked="#borrar" text="BORRAR" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />

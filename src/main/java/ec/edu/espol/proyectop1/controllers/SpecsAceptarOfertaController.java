@@ -183,30 +183,41 @@ public class SpecsAceptarOfertaController implements Initializable {
     private void aceptarOferta(Button botonOferta,Oferta oferta) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Ha aceptado la oferta");
         alerta.show();
-        
-         //vehiculosSerializados = Vehiculo.leerInfoSer("vehiculos.ser"); 
-        if (vehiculosSerializados != null) {
-
-            int index = -1;
-            for (int i = 0; i < vehiculosSerializados.size(); i++) {
-                if (vehiculosSerializados.get(i).getPlaca().equals(vehiculosSelec.getPlaca())) {
-                    index = i;
-                    break;
-                }
-            }
-
-
-            if (index != -1) {
-                vehiculosSerializados.remove(index);
-
-
-
-
-
-                vehiculosFiltrados.remove(vehiculosSelec);
-                
-            }
+        ArrayList<Oferta>ofs = Oferta.readListFromFileSer("ofertas.ser");
+        ArrayList<Oferta> oc = new ArrayList<>();
+        for(Oferta o : ofs){
+            if(!(o.equals(oferta)))
+                oc.add(o);
         }
+        Oferta.saveListToSer(oc);
+        
+        ArrayList<Vehiculo> vei = Vehiculo.leerInfoSer("vehiculos.ser");
+        ArrayList<Vehiculo> fin = new ArrayList<>();
+        for(Vehiculo vehic : vei){
+            if(!(vehic.equals(oferta.getVehiculo())))
+                fin.add(vehic);
+        }
+        Vehiculo.saveListToSer(fin);
+        vehiculosFiltrados.remove(oferta.getVehiculo());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosUsuario.fxml"));
+            Parent root = loader.load();
+            
+            CarrosUsuarioController usu  = loader.getController();
+            usu.setMisCarros(usuarioAceptarOferta);
+            usu.setArrayCarros(vehiculosFiltrados);
+            usu.vehiculosAer(fin);
+            
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) regresar.getScene().getWindow(); 
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        
         for (Button button : botonesOferta) {
             button.setDisable(true);
         }

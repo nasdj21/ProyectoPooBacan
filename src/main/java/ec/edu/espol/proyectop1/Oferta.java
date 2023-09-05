@@ -62,7 +62,16 @@ public class Oferta implements Serializable{
         
     }
     
-      public static ArrayList<Oferta> readListFromFileSer(String nombreArchivo) {
+    public static void saveListToSer(ArrayList<Oferta>ofertas){
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ofertas.ser"))){
+            out.writeObject(ofertas);
+        }
+        catch(IOException e){
+            
+        }
+    }
+    
+    public static ArrayList<Oferta> readListFromFileSer(String nombreArchivo) {
         ArrayList<Oferta>ofertas = new ArrayList<>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(nombreArchivo))) {
             ofertas = (ArrayList<Oferta>) in.readObject();
@@ -72,8 +81,8 @@ public class Oferta implements Serializable{
         return ofertas;
     }
     
-      public static ArrayList<Oferta> filtrarOfertasPorVehiculo(Vehiculo vehiculo, String nombreArchivo) {
-        ArrayList<Oferta> ofertas = readListFromFileSer(nombreArchivo);
+    public static ArrayList<Oferta> filtrarOfertasPorVehiculo(Vehiculo vehiculo, String nombreArchivo) {
+        ArrayList<Oferta> ofertas = Oferta.readListFromFileSer(nombreArchivo);
         ArrayList<Oferta> ofertasFiltradas = new ArrayList<>();
 
         String placaVehiculo = vehiculo.getPlaca();
@@ -86,6 +95,15 @@ public class Oferta implements Serializable{
         }
 
         return ofertasFiltradas;
+    }
+    
+    public static boolean vehiculoTieneOfertaDeUsuario(Usuario u, Vehiculo v){
+        ArrayList<Oferta> ofertas = Oferta.readListFromFileSer("ofertas.ser");
+        for(Oferta o : ofertas){
+            if(o.getVehiculo().equals(v) && o.getUsuario().equals(u))
+                return true;
+        }
+        return false;
     }
    
     

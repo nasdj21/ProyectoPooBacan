@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.proyectop1.controllers;
 
+import ec.edu.espol.proyectop1.Oferta;
 import ec.edu.espol.proyectop1.Usuario;
 import ec.edu.espol.proyectop1.Vehiculo;
 import java.io.IOException;
@@ -41,8 +42,6 @@ public class MisCarrosController implements Initializable {
     private Button buscar;
     @FXML
     private Button borrar;
-    @FXML
-    private TextField tipo;
         
     private Usuario usuarioC;
 
@@ -71,49 +70,95 @@ public class MisCarrosController implements Initializable {
         String[] recorridos = recorrido.getText().split("-");
         String[] años = ano.getText().split("-");
         String[] precios = precio.getText().split("-");
-        String tipoVehiculo = tipo.getText();
         ArrayList<Vehiculo> vehiculos = new ArrayList<>();
-        ArrayList<Vehiculo> carros = Vehiculo.leerInfoSer("vehiculos.ser");
+        ArrayList<Vehiculo> carrosBruto = Vehiculo.leerInfoSer("vehiculos.ser");
+        ArrayList<Vehiculo> carros = new ArrayList<>();
+        for(Vehiculo veic : carrosBruto){
+            if(!(Oferta.vehiculoTieneOfertaDeUsuario(usuarioC, veic)) && !((usuarioC.getNombres()).equals(veic.getUsuario().getNombres()))) //Agrego carros que este usuario no tenga ya una oferta para y que tampoco sean mis carros
+                carros.add(veic);
+        }
 
 
-        if (recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty() && tipoVehiculo.isEmpty()) {
+        if (recorrido.getText().isEmpty() && ano.getText().isEmpty() && precio.getText().isEmpty()) {
             System.out.println("Campos vacios");
-            for(Vehiculo v : carros){
-                if(!((usuarioC.getNombres()).equals(v.getUsuario().getNombres()))){
-                    vehiculos.add(v);
-                }
-            }
-        }else{
-            if (recorridos.length != 2 || años.length != 2 || precios.length != 2) {
+            vehiculos = carros;
+        }else if (recorridos.length > 2 || años.length > 2 || precios.length > 2) {
                 System.out.println(recorridos.length);
+                System.out.println(recorridos[0]);
                 System.out.println(años.length);
                 System.out.println(precios.length);
+                System.out.println(precios[0]);
                 Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese rangos válidos (por ejemplo: 0-10000).");
                 alerta.show();
                 return;
-            }
-
-            double recorridoMin = Double.parseDouble(recorridos[0]);
-            double recorridoMax = Double.parseDouble(recorridos[1]);
-            int añoMin = Integer.parseInt(años[0]);
-            int añoMax = Integer.parseInt(años[1]);
-            double precioMin = Double.parseDouble(precios[0]);
-            double precioMax = Double.parseDouble(precios[1]);
-
-            if (recorridoMin >= recorridoMax || añoMin >= añoMax || precioMin >= precioMax) {
-                Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese rangos válidos.");
-                alerta.show();
-                return;
-            }
-            for (Vehiculo v : carros) {
-                if (v.getRecorrido() > recorridoMin && v.getRecorrido() < recorridoMax &&
-                    v.getAnio() > añoMin && v.getAnio() < añoMax &&
-                    v.getPrecio() > precioMin && v.getPrecio() < precioMax &&
-                    v.getTipo().equals(tipoVehiculo) && !(v.getUsuario().equals(usuarioC))) {
-                    vehiculos.add(v);
+                
+        }else if(recorridos.length == 2 && años.length < 2 && precios.length < 2){ //Si solo se ingresa recorrido como filtro de busqueda
+                double recorridoMin = Double.parseDouble(recorridos[0]);
+                double recorridoMax = Double.parseDouble(recorridos[1]);
+                for(Vehiculo v : carros){
+                    if(v.getRecorrido() > recorridoMin && v.getRecorrido() < recorridoMax)
+                        vehiculos.add(v);
                 }
-            }
-        }
+        }else if(recorridos.length < 2 && años.length == 2 && precios.length < 2){ //Si solo se ingresa año como filtro de busqueda
+                int añoMin = Integer.parseInt(años[0]);
+                int añoMax = Integer.parseInt(años[1]);
+                for(Vehiculo v : carros){
+                    if(v.getAnio() > añoMin && v.getAnio() < añoMax)
+                        vehiculos.add(v);
+                }       
+        }else if(recorridos.length < 2 && años.length < 2 && precios.length == 2){ //Si solo se ingresa precio como filtro de busqueda
+                double precioMin = Double.parseDouble(precios[0]);
+                double precioMax = Double.parseDouble(precios[1]);
+                for(Vehiculo v : carros){
+                    if(v.getPrecio() > precioMin && v.getPrecio() < precioMax)
+                        vehiculos.add(v);
+                }
+                
+        }else if(recorridos.length == 2 && años.length == 2 && precios.length < 2){ //Si se ingresa recorrido y año como filtros de busqueda
+                double recorridoMin = Double.parseDouble(recorridos[0]);
+                double recorridoMax = Double.parseDouble(recorridos[1]);
+                int añoMin = Integer.parseInt(años[0]);
+                int añoMax = Integer.parseInt(años[1]);
+                for(Vehiculo v : carros){
+                    if(v.getRecorrido() > recorridoMin && v.getRecorrido() < recorridoMax && v.getAnio() > añoMin && v.getAnio() < añoMax)
+                        vehiculos.add(v);
+                }
+        }else if(recorridos.length == 2 && años.length < 2 && precios.length == 2){ //Si se ingresa recorrido y precio como filtros de busqueda
+                double recorridoMin = Double.parseDouble(recorridos[0]);
+                double recorridoMax = Double.parseDouble(recorridos[1]);
+                double precioMin = Double.parseDouble(precios[0]);
+                double precioMax = Double.parseDouble(precios[1]);
+                for(Vehiculo v : carros){
+                    if(v.getRecorrido() > recorridoMin && v.getRecorrido() < recorridoMax && v.getPrecio() > precioMin && v.getPrecio() < precioMax)
+                        vehiculos.add(v);
+                }
+        }else if(recorridos.length < 2 && años.length == 2 && precios.length == 2){ //Si se ingresa añoio como filtros de busqueda
+                int añoMin = Integer.parseInt(años[0]);
+                int añoMax = Integer.parseInt(años[1]);
+                double precioMin = Double.parseDouble(precios[0]);
+                double precioMax = Double.parseDouble(precios[1]);
+                for(Vehiculo v : carros){
+                    if(v.getAnio() > añoMin && v.getAnio() < añoMax && v.getPrecio() > precioMin && v.getPrecio() < precioMax)
+                        vehiculos.add(v);
+                }
+        }else if(recorridos.length == 2 && años.length == 2 && precios.length == 2){ //Si se ingresa todos los filtros como filtro de busqueda
+                double recorridoMin = Double.parseDouble(recorridos[0]);
+                double recorridoMax = Double.parseDouble(recorridos[1]);
+                
+                int añoMin = Integer.parseInt(años[0]);
+                int añoMax = Integer.parseInt(años[1]);
+                double precioMin = Double.parseDouble(precios[0]);
+                double precioMax = Double.parseDouble(precios[1]);
+                    for (Vehiculo v : carros) {
+                        if (v.getRecorrido() > recorridoMin && v.getRecorrido() < recorridoMax &&
+                            v.getAnio() > añoMin && v.getAnio() < añoMax &&
+                            v.getPrecio() > precioMin && v.getPrecio() < precioMax) 
+                            vehiculos.add(v);
+                        }
+                    }
+        
+
+
 
         if (vehiculos.isEmpty()) {
             Alert alerta = new Alert(Alert.AlertType.INFORMATION, "No se encontraron vehículos que cumplan con los criterios de búsqueda.");
@@ -144,7 +189,6 @@ public class MisCarrosController implements Initializable {
         recorrido.setText("");
         ano.setText("");
         precio.setText("");
-        tipo.setText("");
     }
 
     @FXML

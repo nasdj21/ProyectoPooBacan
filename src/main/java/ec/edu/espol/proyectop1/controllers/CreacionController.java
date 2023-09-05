@@ -114,13 +114,26 @@ public class CreacionController implements Initializable {
         if ("Auto".equals(seleccion)) {
             TipoVidrios.setDisable(false);
             tipoTransmision.setDisable(false);
+            tipoTraccion.setDisable(true);
+            tipoTraccion.clear();
 
         } else if("Camioneta".equals(seleccion)){
             tipoTraccion.setDisable(false);
             TipoVidrios.setDisable(false);
             tipoTransmision.setDisable(false);
             tipoTraccion.clear(); // Limpia el campo si se deshabilita
+            
         }
+          else{
+            TipoVidrios.setDisable(true);
+            tipoTransmision.setDisable(true);
+            tipoTraccion.setDisable(true);
+            TipoVidrios.clear();
+            tipoTransmision.clear();
+            tipoTraccion.clear();
+            
+        }
+            
         });
     }
 
@@ -274,7 +287,7 @@ public class CreacionController implements Initializable {
     private void guardarImagen(File imagen,String n) throws IOException{
         String nuevoNombre = n+".png";
         if(imagen!=null){
-            String rutaProyecto = System.getProperty("user.dir")+"\\src\\main\\resources";
+            String rutaProyecto = System.getProperty("user.dir")+File.separator+"src"+File.separator+"main"+File.separator+"resources";
             String rutaCarpetaDestino = rutaProyecto + File.separator + "imagenesVehiculos";
             File destinoCarpeta = new File(rutaCarpetaDestino);
             if(!destinoCarpeta.exists())

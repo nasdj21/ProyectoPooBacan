@@ -103,6 +103,15 @@ public class Vehiculo implements Serializable {
         
     }
     
+    public static void saveListToSer(ArrayList<Vehiculo>vehiculos){
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ofertas.ser"))){
+            out.writeObject(vehiculos);
+        }
+        catch(IOException e){
+            
+        }
+    }
+    
     
     public static ArrayList<Vehiculo> leerInfoSer(String nombreArchivo) {
         ArrayList<Vehiculo> vehiculos = new ArrayList<>();
