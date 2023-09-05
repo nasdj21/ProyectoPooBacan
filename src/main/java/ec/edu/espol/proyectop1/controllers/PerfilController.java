@@ -84,31 +84,7 @@ public class PerfilController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-        
-//        String rutaImagen = obtenerRutaImagen();
-//
-//        if (rutaImagen != null) {
-//            // Cargar la imagen almacenada
-//            Image imagen = new Image(new File(rutaImagen).toURI().toString());
-//            imgV.setImage(imagen);
-//        }
-//
-//
-//
-//
-//    }
-//    private String obtenerRutaImagen() {
-//        try (BufferedReader lector = new BufferedReader(new FileReader("ruta_imagen.txt"))) {
-//            String linea;
-//            if ((linea = lector.readLine()) != null) {
-//                return linea; // Devuelve la primera línea del archivo que contiene la ruta de la imagen
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null; // Devuelve null si no se pudo obtener la ruta de la imagen
+ 
     }    
 
     @FXML
@@ -156,32 +132,7 @@ public class PerfilController implements Initializable {
         }
     }
 
-//    @FXML
-//    private void seleccionarImagen(MouseEvent event) {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Imagen", "*.jpg", "*.png", "*.jpeg"));
-//
-//
-//        File archivoSeleccionado = fileChooser.showOpenDialog(null);
-//        
-//         
-//
-//        if (archivoSeleccionado != null) {
-//            Image imagen = new Image(archivoSeleccionado.toURI().toString());
-//            imgV.setImage(imagen); 
-//            guardarRutaImagen(archivoSeleccionado.getAbsolutePath());
-//
-//        }
-//
-//    }
-//    
-//    private void guardarRutaImagen(String rutaImagen) {
-//        try (BufferedWriter escritor = new BufferedWriter(new FileWriter("ruta_imagen.txt"))) {
-//            escritor.write(rutaImagen);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 
     @FXML
     private void MostrarInfo(ActionEvent event) {

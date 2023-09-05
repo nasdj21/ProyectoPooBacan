@@ -171,61 +171,6 @@ public class SpecsCarroController implements Initializable {
         }
     }
 
-
-//    @FXML
-//    private void ofertar(MouseEvent event) throws IOException, ClassNotFoundException {
-//        
-//        ArrayList<Oferta>ofertas = Oferta.readListFromFileSer("ofertas.ser");
-//        Double precioOfertado = Double.parseDouble(fieldValor.getText());
-//        boolean ofertaExiste = false;
-//        for(Oferta o : ofertas){
-//            if(o.getUsuario().equals(usuarioSpecs) && o.getVehiculo().equals(veh)){
-//                Alert alerta = new Alert(Alert.AlertType.ERROR, "Ya existe una oferta para este carro de su parte");
-//                alerta.show();
-//                return;
-//            }
-//        }
-//        
-//        
-//        if(veh.getUsuario().equals(usuarioSpecs)){ //Si es mi propio carro, por si las moscas
-//            Alert alerta = new Alert(Alert.AlertType.ERROR, "No puede ofertar por su propio vehiculo");
-//            alerta.show();
-//            return;
-//            
-//        }
-//            
-//        
-//        else if(fieldValor.getText().isEmpty()){ // si no se ha agregado ningun valor
-//            Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese precio a ofertar.");
-//            alerta.show();
-//            return; 
-//        }
-//        
-//        else{
-//            try{
-//                Oferta oferta = new Oferta(usuarioSpecs, Double.parseDouble(fieldValor.getText()) ,veh);
-//                oferta.saveSer("ofertas.ser");
-//                carros.remove(veh);
-//                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Oferta creada con exito");
-//                alerta.show();
-//                
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
-//                Parent root = loader.load();
-//
-//                CarrosEncontradosController cencontradorController = loader.getController();
-//                cencontradorController.mostrar(carros);
-//                cencontradorController.setUsuario(usuarioSpecs);
-//
-//                Scene scene = new Scene(root);
-//                Stage stage = (Stage) ofertarBoton.getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//            }catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//     }
-//    }
-//    
     public void show(Vehiculo ve){
         String nombreImagenConExtension = ve.getPlaca() + ".png";
         String nombreImagenSinExtension = ve.getPlaca();
