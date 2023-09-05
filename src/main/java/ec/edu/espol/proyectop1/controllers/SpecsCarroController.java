@@ -10,6 +10,7 @@ import ec.edu.espol.proyectop1.Oferta;
 import ec.edu.espol.proyectop1.Usuario;
 import ec.edu.espol.proyectop1.Vehiculo;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -114,44 +115,41 @@ public class SpecsCarroController implements Initializable {
         }
         
     }
-
     @FXML
     private void ofertar(MouseEvent event) throws IOException, ClassNotFoundException {
-        
-        ArrayList<Oferta>ofertas = Oferta.readListFromFileSer("ofertas.ser");
-        Double precioOfertado = Double.parseDouble(fieldValor.getText());
-        boolean ofertaExiste = false;
-        for(Oferta o : ofertas){
-            if(o.getUsuario().equals(usuarioSpecs) && o.getVehiculo().equals(veh)){
-                Alert alerta = new Alert(Alert.AlertType.ERROR, "Ya existe una oferta para este carro de su parte");
-                alerta.show();
-                return;
-            }
-        }
-        
-        
-        if(veh.getUsuario().equals(usuarioSpecs)){ //Si es mi propio carro, por si las moscas
-            Alert alerta = new Alert(Alert.AlertType.ERROR, "No puede ofertar por su propio vehiculo");
+        ArrayList<Oferta> ofertas = Oferta.readListFromFileSer("ofertas.ser");
+        String valorTexto = fieldValor.getText();
+
+        if (valorTexto.isEmpty()) { // Si no se ha ingresado ningún valor
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese un valor para la oferta.");
             alerta.show();
             return;
-            
         }
-            
-        
-        else if(fieldValor.getText().isEmpty()){ // si no se ha agregado ningun valor
-            Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese precio a ofertar.");
-            alerta.show();
-            return; 
-        }
-        
-        else{
-            try{
-                Oferta oferta = new Oferta(usuarioSpecs, Double.parseDouble(fieldValor.getText()) ,veh);
+
+        // Validar si el valor ingresado es un número válido
+        try {
+            Double precioOfertado = Double.parseDouble(valorTexto);
+
+            boolean ofertaExiste = false;
+            for (Oferta o : ofertas) {
+                if (o.getUsuario().equals(usuarioSpecs) && o.getVehiculo().equals(veh)) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR, "Ya existe una oferta para este carro de su parte");
+                    alerta.show();
+                    return;
+                }
+            }
+
+            if (veh.getUsuario().equals(usuarioSpecs)) { // Si es mi propio carro, por si las moscas
+                Alert alerta = new Alert(Alert.AlertType.ERROR, "No puede ofertar por su propio vehículo");
+                alerta.show();
+                return;
+            } else {
+                Oferta oferta = new Oferta(usuarioSpecs, precioOfertado, veh);
                 oferta.saveSer("ofertas.ser");
                 carros.remove(veh);
-                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Oferta creada con exito");
+                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Oferta creada con éxito");
                 alerta.show();
-                
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
                 Parent root = loader.load();
 
@@ -163,16 +161,91 @@ public class SpecsCarroController implements Initializable {
                 Stage stage = (Stage) ofertarBoton.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
-            }catch (IOException e) {
+            }
+        } catch (NumberFormatException e) {
+            // Se lanzará si el valor ingresado no es un número válido
+            Alert alerta = new Alert(Alert.AlertType.ERROR, "Ingrese un valor numérico válido para la oferta.");
+            alerta.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-     }
     }
-    
+
+
+//    @FXML
+//    private void ofertar(MouseEvent event) throws IOException, ClassNotFoundException {
+//        
+//        ArrayList<Oferta>ofertas = Oferta.readListFromFileSer("ofertas.ser");
+//        Double precioOfertado = Double.parseDouble(fieldValor.getText());
+//        boolean ofertaExiste = false;
+//        for(Oferta o : ofertas){
+//            if(o.getUsuario().equals(usuarioSpecs) && o.getVehiculo().equals(veh)){
+//                Alert alerta = new Alert(Alert.AlertType.ERROR, "Ya existe una oferta para este carro de su parte");
+//                alerta.show();
+//                return;
+//            }
+//        }
+//        
+//        
+//        if(veh.getUsuario().equals(usuarioSpecs)){ //Si es mi propio carro, por si las moscas
+//            Alert alerta = new Alert(Alert.AlertType.ERROR, "No puede ofertar por su propio vehiculo");
+//            alerta.show();
+//            return;
+//            
+//        }
+//            
+//        
+//        else if(fieldValor.getText().isEmpty()){ // si no se ha agregado ningun valor
+//            Alert alerta = new Alert(Alert.AlertType.ERROR, "Por favor, ingrese precio a ofertar.");
+//            alerta.show();
+//            return; 
+//        }
+//        
+//        else{
+//            try{
+//                Oferta oferta = new Oferta(usuarioSpecs, Double.parseDouble(fieldValor.getText()) ,veh);
+//                oferta.saveSer("ofertas.ser");
+//                carros.remove(veh);
+//                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "Oferta creada con exito");
+//                alerta.show();
+//                
+//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ec/edu/espol/proyectop1/carrosEncontrados.fxml"));
+//                Parent root = loader.load();
+//
+//                CarrosEncontradosController cencontradorController = loader.getController();
+//                cencontradorController.mostrar(carros);
+//                cencontradorController.setUsuario(usuarioSpecs);
+//
+//                Scene scene = new Scene(root);
+//                Stage stage = (Stage) ofertarBoton.getScene().getWindow();
+//                stage.setScene(scene);
+//                stage.show();
+//            }catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//     }
+//    }
+//    
     public void show(Vehiculo ve){
-        String nombreImagen = ve.getPlaca() + ".png"; 
-        Image imagen = new Image("/imagenesVehiculos/" + nombreImagen); 
-        imView.setImage(imagen); 
+        String nombreImagenConExtension = ve.getPlaca() + ".png";
+        String nombreImagenSinExtension = ve.getPlaca();
+
+        Image imagen = cargarImagenConExtension(nombreImagenConExtension);
+
+        // Si la imagen no se encontró con la extensión .png, intentamos sin la extensión. Esto es debido a que en el JAR 
+        //no se guarda como nombre en png, sino que el png le ayuda a saber que es una imagen, sino es un archivo X.
+        if (imagen == null) {
+            imagen = cargarImagenSinExtension(nombreImagenSinExtension);
+        }
+
+        if (imagen != null) {
+            imView.setImage(imagen);
+        } else {
+            
+        }
+//        String nombreImagen = ve.getPlaca() + ".png"; 
+//        Image imagen = new Image("/imagenesVehiculos/" + nombreImagen); 
+//        imView.setImage(imagen); 
         if(ve instanceof Camioneta){
             Camioneta v = (Camioneta)ve;
             tipo.setText("Camioneta");
@@ -224,6 +297,52 @@ public class SpecsCarroController implements Initializable {
         
         
     }
+    private Image cargarImagenConExtension(String nombreImagen) { //AQUI EN NETBEANS SI MUESTRA IMAGEN
+        try {//Lo hago con InputStream stream = getClass().getResourceAsStream porque en JAR segun investigamos 
+              //esta seria la mejor manera de adquirir los recursos como imagenes, sin embargo no funcio, con o sin esta forma.
+              //Abajo esta el emtodo como estaba inicialmente y aun asi no funciona
+            InputStream stream = getClass().getResourceAsStream("/imagenesVehiculos/" + nombreImagen);
+            if (stream != null) {
+                return new Image(stream);
+            } else {
+                // La imagen no se encontró.
+                return null;
+            }
+        } catch (Exception e) {
+            // Ocurrió un error al cargar la imagen.
+            return null;
+        }
+//        try {
+//            return new Image("/imagenesVehiculos/" + nombreImagen);
+//        } catch (Exception e) {
+//            // La imagen con la extensión .png no se encontró.
+//            return null;
+//        }
+    }
+
+    private Image cargarImagenSinExtension(String nombreImagen) {//AQUI EN NETBEANS SI MUESTRA IMAGEN
+        try {//Lo hago con InputStream stream = getClass().getResourceAsStream porque en JAR segun investigamos 
+              //esta seria la mejor manera de adquirir los recursos como imagenes, sin embargo no funcio, con o sin esta forma.
+              //Abajo esta el emtodo como estaba inicialmente y aun asi no funciona
+            InputStream stream = getClass().getResourceAsStream("/imagenesVehiculos/" + nombreImagen+ ".png");
+            if (stream != null) {
+                return new Image(stream);
+            } else {
+                // La imagen no se encontró.
+                return null;
+            }
+        } catch (Exception e) {
+            // Ocurrió un error al cargar la imagen.
+            return null;
+        }
+//        try {
+//            return new Image("/imagenesVehiculos/" + nombreImagen + ".png");
+//        } catch (Exception e) {
+//            // La imagen sin la extensión .png tampoco se encontró.
+//            return null;
+//        }
+    }
+    
     
     @FXML
     private void regresar(MouseEvent event) {

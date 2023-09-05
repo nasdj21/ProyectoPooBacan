@@ -13,6 +13,7 @@ import ec.edu.espol.proyectop1.Vehiculo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -113,11 +114,27 @@ public class SpecsAceptarOfertaController implements Initializable {
     }
     
     public  void llenarDatos(Vehiculo ve){
+        String nombreImagenConExtension = ve.getPlaca() + ".png";
+        String nombreImagenSinExtension = ve.getPlaca();
+
+        Image imagen = cargarImagenConExtension(nombreImagenConExtension);
+
+        // Si la imagen no se encontró con la extensión .png, intentamos sin la extensión. Esto es debido a que en el JAR 
+        //no se guarda como nombre en png, sino que el png le ayuda a saber que es una imagen, sino e sun archivo X.
+        if (imagen == null) {
+            imagen = cargarImagenSinExtension(nombreImagenSinExtension);
+        }
+
+        if (imagen != null) {
+            imView.setImage(imagen);
+        } else {
+            
+        }
+//        
         
-        String nombreImagen = ve.getPlaca() + ".png"; 
-        Image imagen = new Image("/imagenesVehiculos/" + nombreImagen); 
-        imView.setImage(imagen); // Establece la imagen en el ImageView
-        
+//        String nombreImagen = ve.getPlaca() + ".png"; 
+//        Image imagen = new Image("/imagenesVehiculos/" + nombreImagen); 
+//        imView.setImage(imagen); // Establece la imagen en el ImageView
         if(vehiculosSelec instanceof Camioneta){
                 Camioneta v = (Camioneta)ve;
                 tipo.setText("Camioneta");
@@ -166,6 +183,52 @@ public class SpecsAceptarOfertaController implements Initializable {
                 traccion.setText("N/A");
 
             }
+    }
+    private Image cargarImagenConExtension(String nombreImagen) {//AQUI EN NETBEANS SI MUESTRA IMAGEN
+        try {//Lo hago con InputStream stream = getClass().getResourceAsStream porque en JAR segun investigamos 
+              //esta seria la mejor manera de adquirir los recursos como imagenes, sin embargo no funcio, con o sin esta forma.
+              //Abajo esta el emtodo como estaba inicialmente y aun asi no funciona
+            InputStream stream = getClass().getResourceAsStream("/imagenesVehiculos/" + nombreImagen);
+            if (stream != null) {
+                return new Image(stream);
+            } else {
+                // La imagen no se encontró.
+                return null;
+            }
+        } catch (Exception e) {
+            // Ocurrió un error al cargar la imagen.
+            return null;
+        }
+//        try {
+//
+//            return new Image(File.separator+"imagenesVehiculos"+File.separator + nombreImagen);
+//        } catch (Exception e) {
+//            // La imagen con la extensión .png no se encontró.
+//            return null;
+//        }
+    }
+    private Image cargarImagenSinExtension(String nombreImagen) {//AQUI EN NETBEANS SI MUESTRA IMAGEN
+        try { //Lo hago con InputStream stream = getClass().getResourceAsStream porque en JAR segun investigamos 
+              //esta seria la mejor manera de adquirir los recursos como imagenes, sin embargo no funcio, con o sin esta forma.
+              //Abajo esta el emtodo como estaba inicialmente y aun asi no funciona
+            InputStream stream = getClass().getResourceAsStream("/imagenesVehiculos/" + nombreImagen+ ".png");
+            if (stream != null) {
+                return new Image(stream);
+            } else {
+                // La imagen no se encontró.
+                return null;
+            }
+        } catch (Exception e) {
+            // Ocurrió un error al cargar la imagen.
+            return null;
+        }
+//        try {
+//
+//            return new Image(File.separator+"imagenesVehiculos"+File.separator + nombreImagen + ".png");
+//        } catch (Exception e) {
+//            // La imagen sin la extensión .png tampoco se encontró.
+//            return null;
+//        }
     }
     
     public void cargarBotonesOfertas() {
