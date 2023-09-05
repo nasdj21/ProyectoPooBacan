@@ -122,14 +122,15 @@ public class SpecsCarroController implements Initializable {
         Double precioOfertado = Double.parseDouble(fieldValor.getText());
         boolean ofertaExiste = false;
         for(Oferta o : ofertas){
-            if(o.getUsuario().equals(usuarioSpecs) && o.getVehiculo().equals(veh))
-                ofertaExiste = true;
+            if(o.getUsuario().equals(usuarioSpecs) && o.getVehiculo().equals(veh)){
+                Alert alerta = new Alert(Alert.AlertType.ERROR, "Ya existe una oferta para este carro de su parte");
+                alerta.show();
+                return;
+            }
         }
         
-        if(ofertaExiste){
-            Alert alerta = new Alert(Alert.AlertType.ERROR, "Ya existe una oferta para este carro de su parte");
-        }
-        else if(veh.getUsuario().equals(usuarioSpecs)){ //Si es mi propio carro, por si las moscas
+        
+        if(veh.getUsuario().equals(usuarioSpecs)){ //Si es mi propio carro, por si las moscas
             Alert alerta = new Alert(Alert.AlertType.ERROR, "No puede ofertar por su propio vehiculo");
             alerta.show();
             return;
